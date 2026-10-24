@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # Redis Cache (Optional but recommended)
+  redis:
+    image: redis:7-alpine
+    container_name: futureinnvo_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Django Backend with SQLite
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: futureinnvo_backend
+    environment:
+      - DEBUG=False
+      - ALLOWED_HOSTS=104.248.180.230,localhost,127.0.0.1,backend,frontend
+      - CORS_ALLOWED_ORIGINS=http://104.248.180.230,http://104.248.180.230:3000,http://104.248.180.230:80,http://frontend
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=futureinnvo-production-secret-key-2025-secure
+    volumes:
+      - ./backend:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - sqlite_data:/app/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/activities/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./FUTUREINNVO_SOLO_DESIGN
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://104.248.180.230:8000/api/v1
+        VITE_EMAILJS_SERVICE_ID: service_dotbrub
+        VITE_EMAILJS_TEMPLATE_ID: template_2xxcsrq
+        VITE_EMAILJS_PUBLIC_KEY: M8ZdPyX2WzkQORfB8
+    container_name: futureinnvo_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  static_volume:
+  media_volume:
+  sqlite_data:
+
+networks:
+  default:
+    name: futureinnvo_network

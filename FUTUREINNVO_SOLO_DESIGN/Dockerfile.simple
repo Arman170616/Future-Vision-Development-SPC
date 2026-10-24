@@ -1,0 +1,31 @@
+# Simple Frontend Dockerfile - Alternative approach
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Set environment variables
+ENV VITE_API_BASE_URL=http://104.248.180.230:8000/api/v1
+ENV VITE_EMAILJS_SERVICE_ID=service_dotbrub
+ENV VITE_EMAILJS_TEMPLATE_ID=template_2xxcsrq
+ENV VITE_EMAILJS_PUBLIC_KEY=M8ZdPyX2WzkQORfB8
+
+# Build the application
+RUN npm run build
+
+# Install serve to serve the built app
+RUN npm install -g serve
+
+# Expose port
+EXPOSE 3000
+
+# Serve the built app
+CMD ["serve", "-s", "dist", "-l", "3000"]

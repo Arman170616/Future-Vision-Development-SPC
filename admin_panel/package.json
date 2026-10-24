@@ -1,0 +1,25 @@
+{
+  "name": "futureinnvo-admin-panel",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lucide-react": "1.61.0",
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.49",
+    "tailwindcss": "3.4.17",
+    "typescript": "5.6.3"
+  }
+}

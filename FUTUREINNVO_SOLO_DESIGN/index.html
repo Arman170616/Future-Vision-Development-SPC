@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <script>
+      try { var q = new URLSearchParams(location.search).get('lang'); if (q === 'ar' || (q !== 'en' && localStorage.getItem('fi-lang') === 'ar')) { document.documentElement.lang = 'ar'; document.documentElement.dir = 'rtl'; } } catch (e) {}
+      try { if ((localStorage.getItem('fi-theme') || 'dark') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+    </script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <title>FutureInnvo SPC</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

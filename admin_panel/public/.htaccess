@@ -1,0 +1,21 @@
+# FutureInnvo admin panel (Next.js static export) — public_html/admin
+# A per-directory RewriteEngine replaces the main site's SPA rules for /admin.
+Options -MultiViews
+RewriteEngine On
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+ErrorDocument 404 /admin/404.html
+
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+  Header set X-Frame-Options "DENY"
+  Header set Referrer-Policy "same-origin"
+  <FilesMatch "\.(js|css|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /register
+Disallow: /apply/
+Disallow: /test-error
+
+Sitemap: https://futureinnvo.com/sitemap.xml

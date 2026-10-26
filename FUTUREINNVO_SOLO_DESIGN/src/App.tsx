@@ -24,6 +24,7 @@ import NotFound from './pages/NotFound';
 import TestError from './pages/TestError';
 import Privacy from './pages/Privacy';
 import About from './pages/About';
+import { SeoManager } from './hooks/useSeo';
 
 // Course details now expand inline on /courses; keep old /courses/<slug> links working
 const CourseRedirect = () => {
@@ -36,6 +37,7 @@ function App() {
     <ThemeProvider>
       <LanguageProvider>
       <Router>
+        <SeoManager />
         <div className="min-h-screen">
           <LiquidBackground />
           <Navbar />

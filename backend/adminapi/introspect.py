@@ -289,7 +289,8 @@ def filter_spec(model, spec):
     elif field.many_to_one or field.one_to_one or field.many_to_many:
         related = field.related_model._default_manager.all()[:200]
         options = [(str(obj.pk), str(obj)) for obj in related]
-        apply = lambda qs, v: qs.filter(**{f'{name}__pk': v})
+        # '__any' = linked to any of them (e.g. expenses that belong to some project)
+        apply = lambda qs, v: qs.filter(**{f'{name}__isnull': False}) if v == '__any' else qs.filter(**{f'{name}__pk': v})
     elif isinstance(field, (models.DateField, models.DateTimeField)):
         options = DATE_FILTERS
         is_datetime = isinstance(field, models.DateTimeField)

@@ -25,7 +25,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <img src="/logo.svg" alt="FUTUREINNVO Logo" className="h-8 w-auto logo-hover" />
+              <img src="/brand/logo-tile.svg" alt="FutureInnvo SPC logo" width="40" height="40" className="h-10 w-10 shrink-0 rounded-xl shadow-md ring-1 ring-black/5 logo-hover" />
               <span className="text-xl font-bold text-fg">{t.brand}</span>
             </div>
             <p className="text-muted max-w-md leading-relaxed">{t.footer.about}</p>

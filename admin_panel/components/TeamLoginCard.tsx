@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
-import { Check, Copy, KeyRound, Power, ShieldCheck, Trash2, UserPlus, Wand2 } from 'lucide-react';
+import { Check, Copy, HandCoins, KeyRound, Power, ShieldCheck, Trash2, UserPlus, Wand2 } from 'lucide-react';
 import { ApiError, api } from '@/lib/api';
 import { useMessages } from '@/lib/messages';
 
@@ -12,6 +12,7 @@ interface LoginInfo {
   email?: string;
   is_active?: boolean;
   last_login?: string | null;
+  is_approver?: boolean;
 }
 
 /** Strong, readable password: no look-alike characters. */
@@ -124,7 +125,7 @@ export default function TeamLoginCard({ memberId }: { memberId: number | string 
       <div className="space-y-4 p-5">
         <p className="text-sm text-muted">
           With a login, {info.member} can sign in at <span className="font-medium text-ink">futureinnvo.com/admin</span> to see the tasks assigned
-          to them, update their status and write progress notes. They cannot see anything else.
+          to them, update their status, write progress notes and raise expense requests. They cannot see anything else.
         </p>
 
         {info.has_login ? (
@@ -147,6 +148,24 @@ export default function TeamLoginCard({ memberId }: { memberId: number | string 
             </button>
             <button type="button" onClick={remove} disabled={busy} className="btn-ghost text-red-600"><Trash2 className="h-4 w-4" /> Remove</button>
           </div>
+        ) : null}
+
+        {info.has_login ? (
+          <label className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition ${info.is_approver ? 'border-orange-400/50 bg-orange-500/[0.07]' : 'border-line'}`}>
+            <input
+              type="checkbox"
+              checked={Boolean(info.is_approver)}
+              disabled={busy}
+              onChange={e => send({ is_approver: e.target.checked })}
+              className="mt-1 h-4 w-4 accent-[rgb(var(--accent))]"
+            />
+            <span className="text-sm">
+              <span className="flex items-center gap-1.5 font-semibold"><HandCoins className="h-4 w-4 text-orange-500" /> Approves expense requests</span>
+              <span className="mt-0.5 block text-xs text-muted">
+                The CEO approves automatically once she has a login — tick this only to choose other or extra approvers. When anyone is ticked, only the ticked people can approve.
+              </span>
+            </span>
+          </label>
         ) : (
           mode !== 'create' && (
             <button type="button" onClick={() => open('create')} className="btn-primary"><UserPlus className="h-4 w-4" /> Create login</button>

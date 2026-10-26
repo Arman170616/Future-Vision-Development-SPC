@@ -14,6 +14,8 @@ interface LanguageContextType {
   tt: (value: string | number | undefined | null) => string;
   /** Locale-aware date formatting (Arabic uses Gregorian calendar, Latin digits). */
   fmtDate: (value: string | number | Date | undefined | null, options?: Intl.DateTimeFormatOptions) => string;
+  /** Course prices in Omani rial: 3 decimals (baisa) — "OMR 449.000" / "449.000 ر.ع." */
+  fmtPrice: (value: number | string | undefined | null) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -55,8 +57,14 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     return d.toLocaleDateString(lang === 'ar' ? 'ar-u-ca-gregory-nu-latn' : 'en-US', options ?? { year: 'numeric', month: 'long', day: 'numeric' });
   };
 
+  const fmtPrice = (value: number | string | undefined | null) => {
+    const amount = Number(value ?? 0).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+    // The Arabic symbol is isolated (RLI…PDI) so it keeps its own right-to-left order inside LTR price boxes
+    return lang === 'ar' ? `${amount} \u2067ر.ع.\u2069` : `OMR ${amount}`;
+  };
+
   return (
-    <LanguageContext.Provider value={{ lang, dir, isRTL: dir === 'rtl', t: translations[lang], toggleLang, tr, tt, fmtDate }}>
+    <LanguageContext.Provider value={{ lang, dir, isRTL: dir === 'rtl', t: translations[lang], toggleLang, tr, tt, fmtDate, fmtPrice }}>
       {children}
     </LanguageContext.Provider>
   );

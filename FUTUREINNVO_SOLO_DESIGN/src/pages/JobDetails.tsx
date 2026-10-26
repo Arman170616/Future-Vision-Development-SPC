@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, MapPin, Clock, Briefcase, DollarSign, Calendar, Users, CheckCircle, ArrowRight } from 'lucide-react';
 import { careersApi, JobOpening } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
+import { summary, useSeo } from '../hooks/useSeo';
 
 const JobDetails = () => {
   const { tr, tt, fmtDate } = useLanguage();
@@ -10,6 +11,24 @@ const JobDetails = () => {
   const [job, setJob] = useState<JobOpening | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useSeo(
+    job
+      ? {
+          title: `${job.title} — ${job.location}`,
+          description: summary(job.description),
+          jsonLd: {
+            '@type': 'JobPosting',
+            title: job.title,
+            description: job.description,
+            datePosted: job.created_at?.slice(0, 10),
+            employmentType: job.job_type?.toUpperCase().replace(/[\s-]+/g, '_'),
+            hiringOrganization: { '@type': 'Organization', name: 'FutureInnvo SPC', sameAs: 'https://futureinnvo.com', logo: 'https://futureinnvo.com/brand/icon-512.png' },
+            jobLocation: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: job.location, addressCountry: 'OM' } },
+          },
+        }
+      : null,
+  );
 
   useEffect(() => {
     const fetchJob = async () => {

@@ -5,7 +5,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'FutureInnvo Administration',
   robots: { index: false, follow: false },
-  icons: { icon: '/admin/logo.svg' },
+  icons: { icon: '/admin/logo-tile.svg', apple: '/admin/apple-touch-icon.png' },
 };
 
 // Applies the saved theme before first paint to avoid a light/dark flash.

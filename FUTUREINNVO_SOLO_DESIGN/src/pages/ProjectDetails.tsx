@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Users, Globe, ExternalLink, CheckCircle, TrendingUp, Award, Lightbulb } from 'lucide-react';
-import { projectsApi, Project } from '../services/api';
+import { projectsApi, Project, mediaUrl } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
+import { summary, useSeo } from '../hooks/useSeo';
 
 const ProjectDetails = () => {
   const { tr, tt, fmtDate, lang } = useLanguage();
@@ -10,6 +11,23 @@ const ProjectDetails = () => {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useSeo(
+    project
+      ? {
+          title: lang === 'ar' && project.title_ar ? project.title_ar : project.title,
+          description: summary((lang === 'ar' && project.description_ar) || project.description),
+          image: project.image ? mediaUrl(project.image) : null,
+          jsonLd: {
+            '@type': 'CreativeWork',
+            name: project.title,
+            description: summary(project.description, 300),
+            image: project.image ? mediaUrl(project.image) : undefined,
+            creator: { '@id': 'https://futureinnvo.com/#organization' },
+          },
+        }
+      : null,
+  );
 
   useEffect(() => {
     const fetchProject = async () => {

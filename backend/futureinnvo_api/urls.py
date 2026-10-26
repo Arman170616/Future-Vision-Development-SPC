@@ -18,6 +18,17 @@ from django.urls import path, include, re_path
 from django.views.static import serve
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.decorators.clickjacking import xframe_options_exempt
+
+
+@xframe_options_exempt
+def serve_media(request, path):
+    """Uploaded files, readable inside the website's document viewer (course PDFs) — but only framed by our own sites."""
+    response = serve(request, path, document_root=settings.MEDIA_ROOT)
+    sites = ["'self'", 'https://futureinnvo.com', 'https://www.futureinnvo.com', *settings.CORS_ALLOWED_ORIGINS]
+    response['Content-Security-Policy'] = 'frame-ancestors ' + ' '.join(dict.fromkeys(sites))
+    return response
+
 
 urlpatterns = [
     # Django's own admin UI is intentionally not routed: the Next.js panel at futureinnvo.com/admin
@@ -33,10 +44,9 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     print("Debug mode enabled")
-else:
-    # cPanel's Python app has no separate media server, so Django serves uploaded files (course files)
-    urlpatterns += [
-        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-    ]
+
+# cPanel's Python app has no separate media server, so Django serves uploaded files (course files)
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve_media),
+]

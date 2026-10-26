@@ -3,14 +3,15 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
-import { Bell, BellOff, CheckCheck, CheckCircle2, ChevronRight, MessageSquare, ShieldCheck, Sparkles, UserPlus, type LucideIcon } from 'lucide-react';
+import { Bell, BellOff, CheckCheck, CheckCircle2, ChevronRight, HandCoins, MessageSquare, ShieldCheck, Sparkles, UserPlus, type LucideIcon } from 'lucide-react';
 import { api, editHref, timeAgo } from '@/lib/api';
 
 interface Item {
   id: number;
-  kind: 'assigned' | 'created' | 'note' | 'status' | 'approval';
+  kind: 'assigned' | 'created' | 'note' | 'status' | 'approval' | 'expense';
   message: string;
   task_id: number | null;
+  url: string;
   actor: string | null;
   created_at: string;
   read: boolean;
@@ -27,6 +28,7 @@ const KINDS: Record<Item['kind'], { icon: LucideIcon; label: string; tone: strin
   note: { icon: MessageSquare, label: 'New note', tone: 'bg-sky-500/15 text-sky-600 dark:text-sky-300' },
   status: { icon: CheckCircle2, label: 'Status update', tone: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300' },
   approval: { icon: ShieldCheck, label: 'Approval', tone: 'bg-rose-500/15 text-rose-600 dark:text-rose-300' },
+  expense: { icon: HandCoins, label: 'Expense request', tone: 'bg-orange-500/15 text-orange-600 dark:text-orange-300' },
 };
 
 /** Fired by pages that change notifications, so the bell refreshes immediately. */
@@ -112,7 +114,8 @@ export default function NotificationBell() {
     // Opening one notification clears every unread one about the same task
     const ids = (feed?.items ?? []).filter(i => !i.read && (i.id === item.id || (item.task_id && i.task_id === item.task_id))).map(i => i.id);
     if (ids.length) markRead({ ids });
-    if (item.task_id) router.push(`${editHref('tasks.task', item.task_id)}#notes`);
+    if (item.url) router.push(item.url);
+    else if (item.task_id) router.push(`${editHref('tasks.task', item.task_id)}#notes`);
   };
 
   const unread = feed?.unread ?? 0;

@@ -11,12 +11,21 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.html [L]
 
-# Cache hashed build assets for a year, never cache index.html
+# Caching: build files in /assets/ have hashed names and never change; logos, icons and images
+# keep their names, so they are cached for a week only (an updated logo shows up within days).
+# /assets/ has its own .htaccess with the one-year rule.
 <IfModule mod_headers.c>
-  <FilesMatch "\.(js|css|svg|png|jpg|jpeg|webp|woff2?)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
+  <FilesMatch "\.(svg|png|jpg|jpeg|webp|ico|webmanifest)$">
+    Header set Cache-Control "public, max-age=604800"
   </FilesMatch>
-  <FilesMatch "index\.html$">
+  <FilesMatch "(index\.html|sitemap\.xml|robots\.txt)$">
     Header set Cache-Control "no-cache"
   </FilesMatch>
 </IfModule>
+
+# Compress text files (faster pages = better search ranking)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json application/xml image/svg+xml application/manifest+json
+</IfModule>
+
+AddType application/manifest+json .webmanifest

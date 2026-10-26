@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.response import Response
 
+from expenses import approvals
 from teams.models import TeamMember
 
 from .views import AdminAPIView
@@ -38,6 +39,7 @@ def login_info(member):
         'email': user.email,
         'is_active': user.is_active,
         'last_login': user.last_login.isoformat() if user.last_login else None,
+        'is_approver': approvals.is_approver_member(user),
     }
 
 
@@ -63,6 +65,7 @@ class TeamMemberLoginView(AdminAPIView):
         username = str(request.data.get('username') or '').strip()
         password = str(request.data.get('password') or '')
         is_active = request.data.get('is_active')
+        is_approver = request.data.get('is_approver')
         user = member.user
         errors = {}
 
@@ -107,12 +110,18 @@ class TeamMemberLoginView(AdminAPIView):
                 user.set_password(password)  # also signs the person out everywhere
             user.save()
             user.groups.add(team_group())
+            if is_approver is not None:
+                # e.g. the CEO: approves expense requests (only approvers can, once anyone is ticked)
+                (user.groups.add if is_approver else user.groups.remove)(approvals.approver_group())
             if created:
                 member.user = user
                 member.save(update_fields=['user'])
 
         verb = 'created' if created else 'updated'
-        return Response({**login_info(member), 'detail': f'Login for {member.name} {verb}.'},
+        detail = f'Login for {member.name} {verb}.'
+        if is_approver is not None and not password and not username and is_active is None:
+            detail = f'{member.name} {"now approves" if is_approver else "no longer approves"} expense requests.'
+        return Response({**login_info(member), 'detail': detail},
                         status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
 
     def delete(self, request, pk):

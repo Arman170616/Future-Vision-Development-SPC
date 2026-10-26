@@ -103,6 +103,7 @@ class Notification(models.Model):
         ('note', 'Note'),
         ('status', 'Status'),
         ('approval', 'Approval'),
+        ('expense', 'Expense request'),
     ]
 
     recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='task_notifications')
@@ -110,6 +111,8 @@ class Notification(models.Model):
     task = models.ForeignKey(Task, null=True, blank=True, on_delete=models.CASCADE, related_name='notifications')
     kind = models.CharField(max_length=10, choices=KIND_CHOICES)
     message = models.CharField(max_length=255)
+    # Panel page to open (used by notifications that are not about a task)
+    url = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     read_at = models.DateTimeField(null=True, blank=True)
 

@@ -81,7 +81,7 @@ export const mediaUrl = (url: string | null | undefined) => {
 };
 
 // Models with a dedicated page instead of the generic changelist
-const CUSTOM_LIST_PAGES: Record<string, string> = { 'tasks.task': '/tasks/', 'expenses.expense': '/expenses/', 'expenses.recurringexpense': '/expenses/#fixed' };
+const CUSTOM_LIST_PAGES: Record<string, string> = { 'tasks.task': '/tasks/', 'expenses.expense': '/expenses/', 'expenses.recurringexpense': '/expenses/#fixed', 'expenses.expenserequest': '/requests/' };
 
 export const listHref = (model: string, params: Record<string, string> = {}) =>
   CUSTOM_LIST_PAGES[model] && !Object.keys(params).length

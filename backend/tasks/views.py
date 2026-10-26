@@ -98,6 +98,7 @@ class NotificationsView(AdminAPIView):
                 'kind': n.kind,
                 'message': n.message,
                 'task_id': n.task_id,
+                'url': n.url,
                 'actor': activity.display_name(n.actor) if n.actor else None,
                 'created_at': n.created_at.isoformat(),
                 'read': n.read_at is not None,

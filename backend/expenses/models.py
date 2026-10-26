@@ -29,7 +29,14 @@ class Expense(models.Model):
         ('travel', 'Travel & transport'),
         ('professional', 'Professional services'),
         ('government', 'Government fees & licences'),
+        ('ai', 'AI & API usage'),
+        ('hosting', 'Servers & hosting'),
         ('other', 'Other'),
+    ]
+    SOURCE_CHOICES = [
+        ('normal', 'Normal'),
+        ('fixed', 'Fixed cost'),
+        ('request', 'Approved request'),
     ]
     PAYMENT_CHOICES = [
         ('bank', 'Bank transfer'),
@@ -46,6 +53,10 @@ class Expense(models.Model):
     paid_to = models.CharField(max_length=150, blank=True)
     payment_method = models.CharField(max_length=10, choices=PAYMENT_CHOICES, default='bank')
     reference = models.CharField(max_length=100, blank=True, help_text='Invoice or transaction number')
+    project = models.ForeignKey(
+        'projects.Project', null=True, blank=True, on_delete=models.SET_NULL, related_name='expenses',
+        help_text='Optional: the project this cost belongs to (AI usage, servers, …)',
+    )
     notes = models.TextField(blank=True)
     receipt = models.FileField(
         upload_to=receipt_path, blank=True,
@@ -53,6 +64,8 @@ class Expense(models.Model):
         help_text='Optional: PDF or image of the receipt / invoice',
     )
     recorded_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, editable=False)
+    # How the entry was created: by hand, booked from a fixed cost, or from an approved request
+    source = models.CharField(max_length=10, choices=SOURCE_CHOICES, default='normal', editable=False)
     # Set on entries booked automatically from a fixed cost
     recurring = models.ForeignKey(
         'RecurringExpense', null=True, blank=True, on_delete=models.SET_NULL, related_name='entries', editable=False,
@@ -82,6 +95,10 @@ class RecurringExpense(models.Model):
     amount = models.DecimalField('amount (OMR)', max_digits=12, decimal_places=3, validators=[MinValueValidator(0)])
     paid_to = models.CharField(max_length=150, blank=True)
     payment_method = models.CharField(max_length=10, choices=Expense.PAYMENT_CHOICES, default='bank')
+    project = models.ForeignKey(
+        'projects.Project', null=True, blank=True, on_delete=models.SET_NULL, related_name='fixed_costs',
+        help_text='Optional: book every entry against this project (e.g. a monthly server).',
+    )
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES, default='monthly')
     day_of_month = models.PositiveSmallIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(31)],
@@ -170,7 +187,49 @@ def generate_due_expenses(today=None):
             for day in rec.occurrences(start, end):
                 Expense.objects.create(
                     date=day, title=rec.title, category=rec.category, amount=rec.amount, paid_to=rec.paid_to,
-                    payment_method=rec.payment_method, notes=rec.notes, recurring=rec,
+                    payment_method=rec.payment_method, notes=rec.notes, recurring=rec, source='fixed',
+                    project_id=rec.project_id,
                 )
                 created += 1
     return created
+
+
+class ExpenseRequest(models.Model):
+    """Spending that needs approval first. Approving it books an Expense."""
+
+    STATUS_CHOICES = [
+        ('pending', 'Waiting for approval'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+
+    title = models.CharField('what is needed', max_length=200)
+    amount = models.DecimalField('amount (OMR)', max_digits=12, decimal_places=3, validators=[MinValueValidator(0)])
+    category = models.CharField(max_length=20, choices=Expense.CATEGORY_CHOICES, default='other')
+    project = models.ForeignKey(
+        'projects.Project', null=True, blank=True, on_delete=models.SET_NULL, related_name='expense_requests',
+        help_text='Optional: the project this is for',
+    )
+    paid_to = models.CharField('vendor / paid to', max_length=150, blank=True)
+    needed_by = models.DateField(null=True, blank=True)
+    reason = models.TextField(help_text='Why it is needed — the approver reads this')
+    attachment = models.FileField(
+        upload_to=receipt_path, blank=True,
+        validators=[FileExtensionValidator(['pdf', 'jpg', 'jpeg', 'png', 'webp'])],
+        help_text='Optional: quotation or invoice (PDF or image)',
+    )
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', editable=False)
+    requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='expense_requests', editable=False)
+    decided_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', editable=False)
+    decided_at = models.DateTimeField(null=True, blank=True, editable=False)
+    decision_note = models.TextField(blank=True, editable=False)
+    expense = models.OneToOneField(Expense, null=True, blank=True, on_delete=models.SET_NULL, related_name='request', editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'expense request'
+
+    def __str__(self):
+        return f'{self.title} — {self.amount} OMR'

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import { CheckCircle2, ExternalLink, KeyRound, ListTodo, LogOut, Menu, Moon, Plus, Search, Sun, Wallet, X, XCircle, AlertTriangle, Info } from 'lucide-react';
+import { CheckCircle2, ExternalLink, HandCoins, KeyRound, ListTodo, LogOut, Menu, Moon, Plus, Search, Sun, Wallet, X, XCircle, AlertTriangle, Info } from 'lucide-react';
 import { SITE_URL, editHref, listHref } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { useMessages } from '@/lib/messages';
@@ -78,7 +78,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                   href={listHref(model.key)}
                   onClick={onNavigate}
                   className={`relative flex-1 rounded-lg px-3 py-1.5 text-sm transition-all duration-200 ${
-                    current === model.key || (model.key === 'tasks.task' && pathname.startsWith('/tasks')) || (model.key === 'expenses.expense' && pathname.startsWith('/expenses'))
+                    current === model.key || (model.key === 'tasks.task' && pathname.startsWith('/tasks')) || (model.key === 'expenses.expense' && pathname.startsWith('/expenses')) || (model.key === 'expenses.expenserequest' && pathname.startsWith('/requests'))
                       ? 'bg-gradient-to-r from-accent/20 to-accent/5 text-accent font-semibold before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-1 before:rounded-full before:bg-accent'
                       : 'text-ink hover:bg-accent/10 hover:translate-x-0.5'
                   }`}
@@ -166,6 +166,12 @@ export default function Shell({ crumbs = [], title, actions, children }: { crumb
               <ListTodo className="h-4 w-4" />
               <span className="hidden xl:inline">{user.team_member && !user.is_superuser ? 'My tasks' : 'Tasks'}</span>
             </Link>
+            {!user.is_superuser && (
+              <Link href="/requests/" className={`btn-ghost !px-3 ${pathname.startsWith('/requests') ? '!border-accent text-accent' : ''}`} title="Expense requests">
+                <HandCoins className="h-4 w-4" />
+                <span className="hidden xl:inline">Requests</span>
+              </Link>
+            )}
             {user.is_superuser && (
               <Link href="/expenses/" className={`btn-ghost !px-3 ${pathname.startsWith('/expenses') ? '!border-accent text-accent' : ''}`} title="Expenses">
                 <Wallet className="h-4 w-4" />

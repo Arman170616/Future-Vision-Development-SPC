@@ -110,7 +110,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center gap-2 h-16 px-3 sm:px-6">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
-            <img src="/logo.svg" alt="FUTUREINNVO Logo" className="h-8 w-auto logo-hover" />
+            <img src="/brand/logo-tile.svg" alt="FutureInnvo SPC logo" width="40" height="40" className="h-10 w-10 shrink-0 rounded-xl shadow-md ring-1 ring-black/5 logo-hover" />
             <span className="text-base sm:text-lg font-bold text-fg truncate">{t.brand}</span>
           </Link>
 

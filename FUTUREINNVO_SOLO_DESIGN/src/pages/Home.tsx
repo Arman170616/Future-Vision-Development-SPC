@@ -67,7 +67,7 @@ const partners = [
 const testimonialBadges = ['MICIT', 'PORT', 'AI'];
 
 const Home = () => {
-  const { t, tr, tt, lang } = useLanguage();
+  const { t, tr, tt, lang, fmtPrice } = useLanguage();
   const h = t.home;
   const pageRef = useReveal<HTMLDivElement>();
   const [products, setProducts] = useState<Project[]>([]);
@@ -290,7 +290,7 @@ const Home = () => {
                       <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{tt(c.duration)}</span>
                     </div>
                   </div>
-                  <div className="font-bold text-accent ltr shrink-0">${c.price}</div>
+                  <div className="font-bold text-accent ltr shrink-0">{fmtPrice(c.price)}</div>
                 </Link>
               ))}
             </div>

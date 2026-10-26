@@ -7,6 +7,7 @@ import { ChevronDown, FilePlus2, History, Info, List, Plus, Trash2, X } from 'lu
 import CellView from '@/components/CellView';
 import FieldInput from '@/components/FieldInput';
 import Shell from '@/components/Shell';
+import ProjectCosts from '@/components/ProjectCosts';
 import TaskNotes from '@/components/TaskNotes';
 import TeamLoginCard from '@/components/TeamLoginCard';
 import { ApiError, api, capfirst, editHref, listHref } from '@/lib/api';
@@ -532,6 +533,7 @@ function ChangeFormPage() {
         <aside className="min-w-0 space-y-6 xl:sticky xl:top-20">
           {!isAdd && model === 'tasks.task' && <TaskNotes taskId={id!} compact />}
           {!isAdd && model === 'teams.teammember' && user?.is_superuser && <TeamLoginCard memberId={id!} />}
+          {!isAdd && model === 'projects.project' && user?.is_superuser && <ProjectCosts projectId={id!} />}
           {model !== 'tasks.task' && (
             <section className="card overflow-hidden">
               <h2 className="card-head flex items-center gap-2 !text-sm"><Info className="h-4 w-4" /> {isAdd ? 'New record' : 'Record'}</h2>

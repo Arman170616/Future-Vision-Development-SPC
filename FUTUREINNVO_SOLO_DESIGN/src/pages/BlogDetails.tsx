@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, User, Tag, Clock, Share2, Heart, MessageCircle } from 'lucide-react';
-import { blogApi, BlogPost } from '../services/api';
+import { blogApi, BlogPost, mediaUrl } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
+import { summary, useSeo } from '../hooks/useSeo';
 
 const BlogDetails = () => {
   const { tr, tt, fmtDate } = useLanguage();
@@ -10,6 +11,26 @@ const BlogDetails = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useSeo(
+    post
+      ? {
+          title: post.title,
+          description: summary(post.excerpt || post.content),
+          image: post.image ? mediaUrl(post.image) : null,
+          type: 'article',
+          jsonLd: {
+            '@type': 'BlogPosting',
+            headline: post.title,
+            description: summary(post.excerpt || post.content, 300),
+            image: post.image ? mediaUrl(post.image) : undefined,
+            datePublished: post.published_at,
+            author: { '@type': 'Person', name: post.author },
+            publisher: { '@id': 'https://futureinnvo.com/#organization' },
+          },
+        }
+      : null,
+  );
 
   useEffect(() => {
     const fetchPost = async () => {

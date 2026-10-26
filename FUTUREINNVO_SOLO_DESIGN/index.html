@@ -6,15 +6,94 @@
       try { if ((localStorage.getItem('fi-theme') || 'dark') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
     </script>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO (pages update these at runtime via useSeo) -->
+    <title>FutureInnvo SPC — AI Solutions, Software & Training in Oman</title>
+    <meta name="description" content="FutureInnvo SPC (مستقبل الابتكار) builds AI agents, web & mobile apps, smart city and IoT solutions in Salalah, Oman — and runs hands-on AI training courses for students and professionals." />
+    <meta name="keywords" content="FutureInnvo, مستقبل الابتكار, AI company Oman, artificial intelligence Oman, software company Salalah, AI training courses Oman, AI agents, web development Oman, mobile apps Oman, smart city, IoT, الذكاء الاصطناعي عمان, شركة برمجيات صلالة" />
+    <meta name="author" content="FutureInnvo SPC" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://futureinnvo.com/" />
+    <link rel="alternate" hreflang="en" href="https://futureinnvo.com/?lang=en" />
+    <link rel="alternate" hreflang="ar" href="https://futureinnvo.com/?lang=ar" />
+    <link rel="alternate" hreflang="x-default" href="https://futureinnvo.com/" />
+    <meta name="geo.region" content="OM-ZU" />
+    <meta name="geo.placename" content="Salalah" />
+
+    <!-- Brand icons -->
+    <link rel="icon" type="image/svg+xml" href="/brand/logo-tile.svg" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/brand/icon-48.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/icon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0f2f5c" />
+
+    <!-- Link previews (WhatsApp, LinkedIn, Facebook, X) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FutureInnvo SPC" />
+    <meta property="og:title" content="FutureInnvo SPC — AI Solutions, Software & Training in Oman" />
+    <meta property="og:description" content="AI agents, web & mobile apps, smart city and IoT solutions, and hands-on AI training courses — built in Salalah, Oman." />
+    <meta property="og:url" content="https://futureinnvo.com/" />
+    <meta property="og:image" content="https://futureinnvo.com/brand/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FutureInnvo SPC — AI solutions, software & training built in Oman" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ar_OM" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FutureInnvo SPC — AI Solutions, Software & Training in Oman" />
+    <meta name="twitter:description" content="AI agents, web & mobile apps, smart city and IoT solutions, and hands-on AI training courses — built in Salalah, Oman." />
+    <meta name="twitter:image" content="https://futureinnvo.com/brand/og-image.jpg" />
+
+    <!-- Company details for Google (Knowledge Panel, logo in results) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://futureinnvo.com/#organization",
+            "name": "FutureInnvo SPC",
+            "alternateName": ["FutureInnvo", "مستقبل الابتكار"],
+            "url": "https://futureinnvo.com/",
+            "logo": { "@type": "ImageObject", "url": "https://futureinnvo.com/brand/icon-512.png", "width": 512, "height": 512 },
+            "image": "https://futureinnvo.com/brand/og-image.jpg",
+            "description": "AI solutions, software development, smart city and IoT systems, and AI training courses in Oman.",
+            "email": "info@futureinnvo.com",
+            "telephone": "+968 7111 1040",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Al Shadaah City Mall",
+              "addressLocality": "Salalah",
+              "addressRegion": "Dhofar",
+              "addressCountry": "OM"
+            },
+            "areaServed": "OM",
+            "knowsAbout": ["Artificial Intelligence", "AI Agents", "Software Development", "Mobile Apps", "Smart City", "IoT", "AI Training"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://futureinnvo.com/#website",
+            "url": "https://futureinnvo.com/",
+            "name": "FutureInnvo SPC",
+            "inLanguage": ["en", "ar"],
+            "publisher": { "@id": "https://futureinnvo.com/#organization" }
+          }
+        ]
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-    <title>FutureInnvo SPC</title>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>FutureInnvo SPC — AI Solutions, Software &amp; Training in Oman</h1>
+      <p>FutureInnvo SPC builds AI agents, web and mobile apps, smart city and IoT solutions in Salalah, Oman, and runs AI training courses. Contact: info@futureinnvo.com · +968 7111 1040.</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

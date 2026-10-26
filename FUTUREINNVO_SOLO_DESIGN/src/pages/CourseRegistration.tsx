@@ -37,7 +37,7 @@ const Field = ({ label, icon: Icon, error, children }: { label: string; icon: Lu
 );
 
 const CourseRegistration = () => {
-  const { tr, tt, fmtDate } = useLanguage();
+  const { tr, tt, fmtDate, fmtPrice } = useLanguage();
   const { courseId } = useParams<{ courseId: string }>();
 
   const [courses, setCourses] = useState<Course[]>([]);
@@ -286,7 +286,7 @@ const CourseRegistration = () => {
                         <span className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-blue-200 capitalize">
                           <span>{tt(c.level)}</span>
                           <span>{tt(c.duration)}</span>
-                          <span className="ltr font-semibold text-white">${c.price}</span>
+                          <span className="ltr font-semibold text-white">{fmtPrice(c.price)}</span>
                           {c.is_full && <span className="text-red-300">{tr('Waitlist', 'قائمة الانتظار')}</span>}
                         </span>
                       </button>
@@ -401,7 +401,7 @@ const CourseRegistration = () => {
                   </dl>
                   <div className="mt-5 pt-5 border-t border-blue-400/20 flex items-baseline justify-between">
                     <span className="text-blue-200 text-sm">{tr('Price', 'السعر')}</span>
-                    <span className="text-2xl font-bold text-white ltr">${selected.price}</span>
+                    <span className="text-2xl font-bold text-white ltr">{fmtPrice(selected.price)}</span>
                   </div>
                   {selected.is_full && (
                     <p className="mt-4 text-sm text-red-300">{tr('This course is full — you will be added to the waitlist.', 'هذه الدورة مكتملة، وستتم إضافتك إلى قائمة الانتظار.')}</p>

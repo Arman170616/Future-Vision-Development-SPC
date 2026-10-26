@@ -2,10 +2,72 @@ import { useState, useEffect, useRef, FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import {
   BookOpen, Clock, Users, Search, Star, Award, Calendar, ChevronDown, GraduationCap,
-  CheckCircle2, ListChecks, FileText, Download, Heart, Send, X, MapPin, ArrowRight,
+  CheckCircle2, ListChecks, FileText, Eye, ExternalLink, Heart, Send, X, MapPin, ArrowRight,
 } from 'lucide-react';
 import { coursesApi, Course, CourseAttachment, mediaUrl } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
+
+const FOLD = 14; // size of the turned-down page corner, px
+
+/** The course's material as a small book in the card corner: its first image as the cover, otherwise a document page. */
+const BookCover = ({ course, moreLabel }: { course: Course; moreLabel: (n: number) => string }) => {
+  const attachments = course.attachments ?? [];
+  const cover = attachments.find(a => a.is_image);
+  const doc = attachments.find(a => !a.is_image);
+  if (!cover && !doc) return null;
+  const ext = (doc?.name.split('.').pop() ?? '').toUpperCase().slice(0, 4) || 'FILE';
+  const more = attachments.length - 1;
+
+  return (
+    <span
+      aria-hidden
+      className="relative shrink-0 w-12 h-16 sm:w-[66px] sm:h-[88px] md:w-[74px] md:h-[98px] rotate-3 transition-transform duration-500 ease-out group-hover:-rotate-2 group-hover:-translate-y-1 group-hover:scale-105"
+    >
+      {/* page edges behind the cover */}
+      <span className="absolute inset-0 translate-x-[6px] translate-y-[4px] rounded-e-md rounded-s-sm bg-white/60 shadow-sm ring-1 ring-black/5" />
+      <span className="absolute inset-0 translate-x-[3px] translate-y-[2px] rounded-e-md rounded-s-sm bg-white/85 ring-1 ring-black/5" />
+      <span
+        className="absolute inset-0 overflow-hidden rounded-e-md rounded-s-sm bg-white shadow-[0_10px_22px_-8px_rgba(0,0,0,0.45)]"
+        style={{ clipPath: `polygon(0 0, calc(100% - ${FOLD}px) 0, 100% ${FOLD}px, 100% 100%, 0 100%)` }}
+      >
+        {cover ? (
+          <img src={mediaUrl(cover.url)} alt="" loading="lazy" className="h-full w-full object-cover" />
+        ) : (
+          <span className="flex h-full w-full flex-col gap-[5px] bg-gradient-to-b from-white to-stone-100 px-2.5 pt-4">
+            {[90, 70, 85, 60, 75].map((w, i) => <span key={i} className="h-[3px] rounded-full bg-stone-300/80" style={{ width: `${w}%` }} />)}
+            <span className="mt-auto mb-2 self-start rounded bg-red-500 px-1 py-px text-[9px] font-bold tracking-wide text-white">{ext}</span>
+          </span>
+        )}
+        {/* spine */}
+        <span className="absolute inset-y-0 start-0 w-[6px] bg-gradient-to-r from-black/35 via-black/10 to-transparent" />
+        <span className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/10" />
+      </span>
+      {/* turned-down corner */}
+      <span
+        className="absolute end-0 top-0 rounded-es-sm shadow-[-2px_2px_3px_rgba(0,0,0,0.25)]"
+        style={{ width: FOLD, height: FOLD, background: 'linear-gradient(225deg, transparent 50%, #f5efe9 50%, #e2d8cf 100%)' }}
+      />
+      {more > 0 && (
+        <span className="absolute -bottom-2 -end-2 rounded-full bg-gradient-to-r from-rose-500 to-orange-400 px-1.5 py-0.5 text-[10px] font-bold text-white shadow ltr">
+          {moreLabel(more)}
+        </span>
+      )}
+    </span>
+  );
+};
+
+const OFFICE_EXTENSIONS = ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'];
+
+/** In-page reader URL: PDFs in the browser's viewer (no toolbar), Office files in Microsoft's online viewer. */
+const readerUrl = (doc: CourseAttachment) => {
+  const url = mediaUrl(doc.url);
+  const ext = (doc.name.split('.').pop() ?? '').toLowerCase();
+  if (OFFICE_EXTENSIONS.includes(ext)) return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+  // Phones without a built-in PDF viewer (e.g. Android Chrome) would only offer a download
+  const nav = navigator as Navigator & { pdfViewerEnabled?: boolean };
+  if (nav.pdfViewerEnabled === false) return `https://docs.google.com/viewer?embedded=true&url=${encodeURIComponent(url)}`;
+  return `${url}#toolbar=0&navpanes=0&view=FitH`;
+};
 
 /** Split admin-entered multi-line text into clean list items ("- item", "• item", "1. item"). */
 const toLines = (text?: string) =>
@@ -35,7 +97,7 @@ const toSections = (lines: string[]) => {
 type InterestState = { open: boolean; sending: boolean; done: boolean; error: string };
 
 const Courses = () => {
-  const { tr, tt, fmtDate } = useLanguage();
+  const { tr, tt, fmtDate, fmtPrice } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
@@ -51,6 +113,7 @@ const Courses = () => {
   const openSlug = searchParams.get('course');
   const itemRefs = useRef<Record<string, HTMLElement | null>>({});
   const [lightbox, setLightbox] = useState<CourseAttachment | null>(null);
+  const [reader, setReader] = useState<CourseAttachment | null>(null);
   const [interest, setInterest] = useState<Record<number, InterestState>>({});
 
   useEffect(() => {
@@ -79,11 +142,20 @@ const Courses = () => {
   }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!lightbox) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setLightbox(null);
+    if (!lightbox && !reader) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setLightbox(null);
+      setReader(null);
+    };
+    const overflow = document.body.style.overflow;
+    if (reader) document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [lightbox]);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = overflow;
+    };
+  }, [lightbox, reader]);
 
   const toggle = (slug: string) => {
     setSearchParams(openSlug === slug ? {} : { course: slug }, { replace: true });
@@ -248,7 +320,7 @@ const Courses = () => {
                     onClick={() => toggle(course.slug)}
                     aria-expanded={open}
                     aria-controls={panelId}
-                    className="w-full text-start p-5 md:p-6 flex items-center gap-4 hover:bg-blue-500/10 transition-colors"
+                    className="group w-full text-start p-5 md:p-6 flex items-center gap-4 hover:bg-blue-500/10 transition-colors"
                   >
                     <span className="hidden sm:flex w-14 h-14 shrink-0 rounded-2xl items-center justify-center bg-blue-500/20">
                       <GraduationCap className="h-7 w-7 text-blue-300" />
@@ -277,7 +349,8 @@ const Courses = () => {
                         )}
                       </span>
                     </span>
-                    <span className="hidden md:block text-xl font-bold text-white ltr shrink-0">${course.price}</span>
+                    <BookCover course={course} moreLabel={n => `+${n}`} />
+                    <span className="hidden md:block text-xl font-bold text-white ltr shrink-0">{fmtPrice(course.price)}</span>
                     <ChevronDown className={`h-6 w-6 shrink-0 text-blue-300 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
                   </button>
 
@@ -397,12 +470,11 @@ const Courses = () => {
                                 </figure>
                               ))}
                               {documents.map(doc => (
-                                <a
+                                <button
+                                  type="button"
                                   key={doc.id}
-                                  href={mediaUrl(doc.url)}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="glass-effect rounded-2xl p-4 flex items-center gap-3 hover:bg-blue-500/10 transition-colors"
+                                  onClick={() => setReader(doc)}
+                                  className="group w-full text-start glass-effect rounded-2xl p-4 flex items-center gap-3 hover:bg-blue-500/10 transition-colors"
                                 >
                                   <span className="w-11 h-11 shrink-0 rounded-xl bg-blue-500/20 flex items-center justify-center">
                                     <FileText className="h-5 w-5 text-blue-300" />
@@ -411,8 +483,11 @@ const Courses = () => {
                                     <span className="block font-medium text-white truncate">{doc.title || doc.name}</span>
                                     <span className="block text-xs text-blue-200 uppercase ltr">{doc.name.split('.').pop()}</span>
                                   </span>
-                                  <Download className="h-5 w-5 text-blue-300 shrink-0" />
-                                </a>
+                                  <span className="inline-flex items-center gap-1.5 shrink-0 rounded-full bg-blue-500/20 px-3 py-1.5 text-sm font-semibold text-blue-300 transition-transform group-hover:scale-105">
+                                    <Eye className="h-4 w-4" />
+                                    {tr('Read', 'قراءة')}
+                                  </span>
+                                </button>
                               ))}
                             </aside>
                           )}
@@ -421,7 +496,7 @@ const Courses = () => {
                         {/* Actions */}
                         <div className="mt-8 pt-6 border-t border-blue-400/20 flex flex-col sm:flex-row sm:items-center gap-3">
                           <div className="sm:me-auto">
-                            <div className="text-2xl font-bold text-white ltr">${course.price}</div>
+                            <div className="text-2xl font-bold text-white ltr">{fmtPrice(course.price)}</div>
                             {course.is_full && (
                               <div className="text-sm text-red-300">{tr('Course is full — join the waitlist', 'الدورة مكتملة — انضم إلى قائمة الانتظار')}</div>
                             )}
@@ -504,6 +579,33 @@ const Courses = () => {
           </Link>
         </div>
       </section>
+
+      {/* Document reader */}
+      {reader && (
+        <div className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-6" onClick={() => setReader(null)} role="dialog" aria-modal="true" aria-label={reader.title || reader.name}>
+          <div className="flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center gap-3 border-b border-gray-200 bg-gray-50 px-4 py-3">
+              <span className="w-9 h-9 shrink-0 rounded-lg bg-red-500/10 flex items-center justify-center"><FileText className="h-5 w-5 text-red-500" /></span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate font-semibold text-gray-900">{reader.title || reader.name}</span>
+                <span className="block text-xs uppercase text-gray-500 ltr">{reader.name.split('.').pop()}</span>
+              </span>
+              <a
+                href={mediaUrl(reader.url)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-200"
+              >
+                <ExternalLink className="h-4 w-4" /> {tr('Full screen', 'ملء الشاشة')}
+              </a>
+              <button type="button" onClick={() => setReader(null)} className="rounded-lg p-2 text-gray-600 hover:bg-gray-200" aria-label={tr('Close', 'إغلاق')}>
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <iframe key={reader.id} src={readerUrl(reader)} title={reader.title || reader.name} className="h-full w-full flex-1 bg-gray-100" />
+          </div>
+        </div>
+      )}
 
       {/* Image lightbox */}
       {lightbox && (

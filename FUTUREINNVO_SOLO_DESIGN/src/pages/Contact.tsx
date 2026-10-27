@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, MapPin, Clock, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -182,17 +182,6 @@ const Contact = () => {
               <h2 className="text-2xl font-bold text-white mb-6">{tr('Contact Information', 'معلومات التواصل')}</h2>
               
               <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="bg-blue-500/30 p-3 rounded-lg">
-                    <Phone className="h-6 w-6 text-blue-300" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white">{tr('Phone', 'الهاتف')}</h3>
-                    <p className="text-blue-100 ltr">+968 7111 1040</p>
-                    
-                  </div>
-                </div>
-
                 <div className="flex items-start space-x-4">
                   <div className="bg-green-500/30 p-3 rounded-lg">
                     <Mail className="h-6 w-6 text-green-300" />
@@ -445,16 +434,11 @@ const Contact = () => {
               </div>
 
               {/* Additional Location Info */}
-              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
                 <div className="glass-effect p-4 rounded-lg">
                   <Clock className="h-6 w-6 text-blue-300 mx-auto mb-2" />
                   <h4 className="font-semibold text-white mb-1">{tr('Business Hours', 'ساعات العمل')}</h4>
                   <p className="text-blue-100 text-sm">{tr('Sun-Thu: 9AM-7PM', 'الأحد - الخميس: 9 ص - 7 م')}</p>
-                </div>
-                <div className="glass-effect p-4 rounded-lg">
-                  <Phone className="h-6 w-6 text-green-300 mx-auto mb-2" />
-                  <h4 className="font-semibold text-white mb-1">{tr('Call Us', 'اتصل بنا')}</h4>
-                  <p className="text-blue-100 text-sm ltr">+968 7111 1040</p>
                 </div>
                 <div className="glass-effect p-4 rounded-lg">
                   <MapPin className="h-6 w-6 text-purple-300 mx-auto mb-2" />

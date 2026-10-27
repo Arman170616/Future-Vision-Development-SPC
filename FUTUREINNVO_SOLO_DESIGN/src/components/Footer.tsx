@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 const Footer = () => {
@@ -47,10 +47,6 @@ const Footer = () => {
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-accent">{t.footer.contactInfo}</h3>
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 flex-shrink-0 text-accent" />
-                <span className="text-muted ltr">+968 7111 1040</span>
-              </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 flex-shrink-0 text-accent" />
                 <a href="mailto:info@futureinnvo.com" className={`ltr ${link}`}>info@futureinnvo.com</a>

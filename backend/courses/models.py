@@ -26,7 +26,8 @@ class Course(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Course price")
     level = models.CharField(max_length=20, choices=COURSE_LEVELS, default='beginner')
     course_type = models.CharField(max_length=20, choices=COURSE_TYPES, default='online')
-    max_students = models.PositiveIntegerField(default=50, help_text="Maximum number of students")
+    # Seat limits are not used (removed from the admin panel): empty = unlimited, the course never fills up
+    max_students = models.PositiveIntegerField(null=True, blank=True, default=None, help_text="Optional seat limit; empty = unlimited")
     
     # Course content
     curriculum = models.TextField(blank=True, help_text="Course curriculum/modules")
@@ -61,11 +62,13 @@ class Course(models.Model):
     @property
     def is_full(self):
         """Check if course has reached maximum capacity"""
-        return self.current_enrollments >= self.max_students
+        return self.max_students is not None and self.current_enrollments >= self.max_students
     
     @property
     def spots_remaining(self):
         """Get number of spots remaining"""
+        if self.max_students is None:
+            return None
         return max(0, self.max_students - self.current_enrollments)
 
 

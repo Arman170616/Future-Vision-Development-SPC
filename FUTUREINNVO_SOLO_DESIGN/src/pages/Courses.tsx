@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import {
-  BookOpen, Clock, Users, Search, Star, Award, Calendar, ChevronDown, GraduationCap,
+  BookOpen, Clock, Search, Star, Award, Calendar, ChevronDown, GraduationCap,
   CheckCircle2, ListChecks, FileText, Eye, ExternalLink, Heart, Send, X, MapPin, ArrowRight,
 } from 'lucide-react';
 import { coursesApi, Course, CourseAttachment, mediaUrl } from '../services/api';
@@ -367,10 +367,9 @@ const Courses = () => {
                           <div className={attachments.length > 0 ? 'lg:col-span-3' : 'lg:col-span-5'}>
                             <p className="text-blue-100 leading-relaxed mb-6 whitespace-pre-line">{course.description || course.short_description}</p>
 
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
                               {[
                                 { icon: Clock, label: tr('Duration', 'المدة'), value: tt(course.duration) },
-                                { icon: Users, label: tr('Spots Left', 'المقاعد المتبقية'), value: String(course.spots_remaining) },
                                 { icon: Calendar, label: tr('Starts', 'تاريخ البدء'), value: course.start_date ? fmtDate(course.start_date) : '—' },
                                 { icon: MapPin, label: tr('Format', 'نمط الدراسة'), value: tt(course.course_type) },
                               ].map(({ icon: Icon, label, value }) => (

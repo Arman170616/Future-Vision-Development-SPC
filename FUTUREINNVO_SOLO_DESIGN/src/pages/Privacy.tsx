@@ -1,4 +1,4 @@
-import { Shield, Lock, Eye, FileText, Mail, Phone } from 'lucide-react';
+import { Shield, Lock, Eye, FileText, Mail } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 const Privacy = () => {
@@ -206,10 +206,6 @@ const Privacy = () => {
               <a href="mailto:info@futureinnvo.com" className="ltr flex items-center text-blue-100 hover:text-white transition-colors">
                 <Mail className="h-5 w-5 mr-2" />
                 info@futureinnvo.com
-              </a>
-              <a href="tel:+96871111040" className="ltr flex items-center text-blue-100 hover:text-white transition-colors">
-                <Phone className="h-5 w-5 mr-2" />
-                +968 7111 1040
               </a>
             </div>
           </div>

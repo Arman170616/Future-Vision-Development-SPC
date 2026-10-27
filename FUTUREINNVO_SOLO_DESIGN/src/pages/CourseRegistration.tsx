@@ -2,7 +2,7 @@ import { useState, useEffect, type ReactNode } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   ArrowLeft, User, Mail, Phone, MessageSquare, Send, CheckCircle2, AlertCircle,
-  BookOpen, GraduationCap, Clock, Calendar, MapPin, Users, ClipboardCheck, PhoneCall,
+  BookOpen, GraduationCap, Clock, Calendar, MapPin, ClipboardCheck, PhoneCall,
   BadgeCheck, Check, type LucideIcon,
 } from 'lucide-react';
 import { coursesApi, Course } from '../services/api';
@@ -321,7 +321,7 @@ const CourseRegistration = () => {
                 </Field>
                 <Field label={tr('Phone Number *', 'رقم الهاتف *')} icon={Phone} error={formErrors.phone}>
                   <input type="tel" name="phone" autoComplete="tel" value={formData.phone} onChange={handleInputChange}
-                    className={inputClass('phone')} placeholder={tr('e.g. +968 7111 1040', 'مثال: \u2066+968 7111 1040\u2069')} />
+                    className={inputClass('phone')} placeholder={tr('e.g. +968 9XXX XXXX', 'مثال: \u2066+968 9XXX XXXX\u2069')} />
                 </Field>
               </div>
             </section>
@@ -390,7 +390,6 @@ const CourseRegistration = () => {
                       { icon: Clock, label: tr('Duration', 'المدة'), value: tt(selected.duration) },
                       { icon: MapPin, label: tr('Format', 'نمط الدراسة'), value: tt(selected.course_type) },
                       { icon: Calendar, label: tr('Starts', 'تاريخ البدء'), value: selected.start_date ? fmtDate(selected.start_date) : '—' },
-                      { icon: Users, label: tr('Spots Left', 'المقاعد المتبقية'), value: String(selected.spots_remaining) },
                     ].map(({ icon: Icon, label, value }) => (
                       <div key={label} className="flex items-center gap-3">
                         <Icon className="h-4 w-4 text-blue-300 shrink-0" />

@@ -152,8 +152,8 @@ const routeSeo = (path: string, tr: Tr): SeoInput => {
     '/contact': {
       title: tr('Contact Us — Salalah, Oman', 'تواصل معنا — صلالة، عُمان'),
       description: tr(
-        'Talk to FutureInnvo SPC: info@futureinnvo.com · +968 7111 1040 · Al Shadaah City Mall, Salalah, Oman.',
-        'تواصل مع مستقبل الابتكار: info@futureinnvo.com · ‎+968 7111 1040 · مجمع الشدح سيتي مول، صلالة، عُمان.',
+        'Talk to FutureInnvo SPC: info@futureinnvo.com · Al Shadaah City Mall, Salalah, Oman.',
+        'تواصل مع مستقبل الابتكار: info@futureinnvo.com · مجمع الشدح سيتي مول، صلالة، عُمان.',
       ),
     },
     '/privacy': {

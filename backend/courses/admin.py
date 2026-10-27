@@ -20,18 +20,18 @@ class CourseAttachmentInline(admin.TabularInline):
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     inlines = [CourseAttachmentInline]
-    list_display = ['name', 'instructor', 'level', 'course_type', 'price', 'current_enrollments', 'max_students', 'is_active', 'created_at']
+    list_display = ['name', 'instructor', 'level', 'course_type', 'price', 'current_enrollments', 'is_active', 'created_at']
     list_filter = ['level', 'course_type', 'is_active', 'is_featured', 'created_at']
     search_fields = ['name', 'instructor', 'description']
     prepopulated_fields = {'slug': ('name',)}
-    readonly_fields = ['created_at', 'updated_at', 'current_enrollments', 'spots_remaining']
+    readonly_fields = ['created_at', 'updated_at', 'current_enrollments']
     
     fieldsets = (
         ('Basic Information', {
             'fields': ('name', 'slug', 'short_description', 'description')
         }),
         ('Course Details', {
-            'fields': ('instructor', 'duration', 'level', 'course_type', 'price', 'max_students')
+            'fields': ('instructor', 'duration', 'level', 'course_type', 'price')
         }),
         ('Content', {
             'fields': ('curriculum', 'prerequisites', 'learning_outcomes'),
@@ -44,7 +44,7 @@ class CourseAdmin(admin.ModelAdmin):
             'fields': ('is_active', 'is_featured')
         }),
         ('Statistics', {
-            'fields': ('current_enrollments', 'spots_remaining'),
+            'fields': ('current_enrollments',),
             'classes': ('collapse',)
         }),
         ('Timestamps', {

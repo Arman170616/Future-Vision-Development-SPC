@@ -1,0 +1,40 @@
+# FutureInnvo React app on cPanel (Apache / LiteSpeed)
+Options -MultiViews
+RewriteEngine On
+
+# One address for the whole site: www.futureinnvo.com → futureinnvo.com (Google sees one site, not two copies)
+RewriteCond %{HTTP_HOST} ^www\.futureinnvo\.com$ [NC]
+RewriteRule ^ https://futureinnvo.com%{REQUEST_URI} [L,R=301]
+
+# Force HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Pre-rendered pages (scripts/prerender.mjs): /about → _pages/about.html, /projects/x → _pages/projects/x.html,
+# so search engines get each page's real content without running JavaScript
+RewriteCond %{DOCUMENT_ROOT}/_pages/$1.html -f
+RewriteRule ^(.+?)/?$ _pages/$1.html [L]
+
+# Single-page app: every other non-file route (/register, …) gets the app shell
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ app.html [L]
+
+# Caching: build files in /assets/ have hashed names and never change; logos, icons and images
+# keep their names, so they are cached for a week only (an updated logo shows up within days).
+# /assets/ has its own .htaccess with the one-year rule.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(svg|png|jpg|jpeg|webp|ico|webmanifest)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "(\.html|sitemap\.xml|robots\.txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+# Compress text files (faster pages = better search ranking)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json application/xml image/svg+xml application/manifest+json
+</IfModule>
+
+AddType application/manifest+json .webmanifest

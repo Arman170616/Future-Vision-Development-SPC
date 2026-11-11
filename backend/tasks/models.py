@@ -104,6 +104,7 @@ class Notification(models.Model):
         ('status', 'Status'),
         ('approval', 'Approval'),
         ('expense', 'Expense request'),
+        ('contact', 'Website message'),
     ]
 
     recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='task_notifications')

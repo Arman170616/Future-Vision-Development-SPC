@@ -67,6 +67,8 @@ INSTALLED_APPS = [
     'adminapi',  # API for the Next.js admin panel at futureinnvo.com/admin
     'tasks',  # internal tasks — admin panel only, no public API
     'expenses',  # company expenses — admin panel (superusers) only, no public API
+    'contact',  # website Contact form — read in the admin panel
+    'videos',  # home-page videos & reels — uploaded file or link
 ]
 
 MIDDLEWARE = [

@@ -3,12 +3,12 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
-import { Bell, BellOff, CheckCheck, CheckCircle2, ChevronRight, HandCoins, MessageSquare, ShieldCheck, Sparkles, UserPlus, type LucideIcon } from 'lucide-react';
+import { Bell, BellOff, CheckCheck, CheckCircle2, ChevronRight, HandCoins, Mail, MessageSquare, ShieldCheck, Sparkles, UserPlus, type LucideIcon } from 'lucide-react';
 import { api, editHref, timeAgo } from '@/lib/api';
 
 interface Item {
   id: number;
-  kind: 'assigned' | 'created' | 'note' | 'status' | 'approval' | 'expense';
+  kind: 'assigned' | 'created' | 'note' | 'status' | 'approval' | 'expense' | 'contact';
   message: string;
   task_id: number | null;
   url: string;
@@ -29,6 +29,7 @@ const KINDS: Record<Item['kind'], { icon: LucideIcon; label: string; tone: strin
   status: { icon: CheckCircle2, label: 'Status update', tone: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300' },
   approval: { icon: ShieldCheck, label: 'Approval', tone: 'bg-rose-500/15 text-rose-600 dark:text-rose-300' },
   expense: { icon: HandCoins, label: 'Expense request', tone: 'bg-orange-500/15 text-orange-600 dark:text-orange-300' },
+  contact: { icon: Mail, label: 'Website message', tone: 'bg-teal-500/15 text-teal-600 dark:text-teal-300' },
 };
 
 /** Fired by pages that change notifications, so the bell refreshes immediately. */

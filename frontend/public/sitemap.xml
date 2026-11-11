@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://futureinnvo.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/about?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/about?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/courses</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/courses?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/courses?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/ai-courses-salalah</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/ai-courses-salalah?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/ai-courses-salalah?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/ai-solutions-salalah</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/ai-solutions-salalah?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/ai-solutions-salalah?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/blog?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/blog?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/team</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/team?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/team?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/ceo-message</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/ceo-message?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/ceo-message?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/activities</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/activities?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/activities?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/gallery</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/gallery?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/gallery?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/jobs</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/jobs?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/jobs?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/career</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/career?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/career?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/contact</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/contact?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/contact?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/privacy?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/privacy?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects/ai-agents-platform</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects/ai-agents-platform?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects/ai-agents-platform?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects/tender-analysis-system</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects/tender-analysis-system?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects/tender-analysis-system?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects/midad</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects/midad?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects/midad?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects/omscan-pos-inventory-management</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects/omscan-pos-inventory-management?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects/omscan-pos-inventory-management?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects/binnahya-school-management-saas</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects/binnahya-school-management-saas?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects/binnahya-school-management-saas?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects/inventory-management-system-with-ai-chatbot</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects/inventory-management-system-with-ai-chatbot?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects/inventory-management-system-with-ai-chatbot?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects/ai-finance-accountant-agent</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects/ai-finance-accountant-agent?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects/ai-finance-accountant-agent?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects/ai-hire-cv-analysis</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects/ai-hire-cv-analysis?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects/ai-hire-cv-analysis?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/projects/smart-city-management-platform</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/projects/smart-city-management-platform?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/projects/smart-city-management-platform?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/blog/candidate-onboarding-placement-management</loc>
+    <lastmod>2025-10-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/blog/candidate-onboarding-placement-management?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/blog/candidate-onboarding-placement-management?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/blog/building-sustainable-tech-solutions</loc>
+    <lastmod>2025-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/blog/building-sustainable-tech-solutions?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/blog/building-sustainable-tech-solutions?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/blog/the-future-of-ai-in-software-development</loc>
+    <lastmod>2025-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/blog/the-future-of-ai-in-software-development?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/blog/the-future-of-ai-in-software-development?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/jobs/4</loc>
+    <lastmod>2025-10-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/jobs/4?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/jobs/4?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/jobs/3</loc>
+    <lastmod>2025-10-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/jobs/3?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/jobs/3?lang=ar"/>
+  </url>
+  <url>
+    <loc>https://futureinnvo.com/jobs/2</loc>
+    <lastmod>2025-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futureinnvo.com/jobs/2?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futureinnvo.com/jobs/2?lang=ar"/>
+  </url>
+</urlset>

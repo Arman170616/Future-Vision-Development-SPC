@@ -1,0 +1,741 @@
+/* postcss-enable */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   THEME TOKENS
+   Dark  : Deep space  + Sky blue liquid light
+   Light : Porcelain   + Brand blue liquid light
+   ============================================================ */
+
+:root {
+  /* ---- Light (White + Blue) ---- */
+  --bg:          #f4f8fc;
+  --fg:          #111827;
+  --fg-muted:    #4b5563;
+  --accent:      #0b6fc2;
+  --accent-2:    #22a6e8;
+  --accent-rgb:  11, 111, 194;
+
+  --blob-1: rgba(56, 152, 226, 0.28);
+  --blob-2: rgba(125, 211, 252, 0.30);
+  --blob-3: rgba(165, 180, 252, 0.30);
+  --blob-4: rgba(167, 214, 230, 0.26);
+  --grid-line: rgba(11, 111, 194, 0.07);
+  --vignette:  rgba(244, 248, 252, 0.0);
+
+  --glass-bg:            linear-gradient(135deg, rgba(255,255,255,0.62), rgba(255,255,255,0.34));
+  --glass-bg-strong:     linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,255,255,0.52));
+  --glass-border:        rgba(255, 255, 255, 0.75);
+  --glass-border-strong: rgba(255, 255, 255, 0.90);
+  --glass-rim:           rgba(11, 111, 194, 0.35);
+  --glass-shadow:        0 10px 40px -12px rgba(15, 30, 70, 0.18), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(11,111,194,0.06);
+  --glass-shadow-strong: 0 18px 60px -16px rgba(15, 30, 70, 0.26), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(11,111,194,0.08);
+  --glass-sheen:         rgba(255, 255, 255, 0.70);
+
+  --glow-color:          rgba(11, 111, 194, 0.22);
+  --glow-color-strong:   rgba(11, 111, 194, 0.45);
+  --nav-border:          rgba(11, 111, 194, 0.15);
+  --logo-glow:           rgba(11, 111, 194, 0.28);
+}
+
+html.dark {
+  /* ---- Dark (Navy + Sky blue) ---- */
+  --bg:          #050a18;
+  --fg:          #ffffff;
+  --fg-muted:    #cbd5e1;
+  --accent:      #4dc0ff;
+  --accent-2:    #a5b4fc;
+  --accent-rgb:  77, 192, 255;
+
+  --blob-1: rgba(56, 170, 240, 0.30);
+  --blob-2: rgba(99, 102, 241, 0.22);
+  --blob-3: rgba(67, 56, 202, 0.20);
+  --blob-4: rgba(125, 211, 252, 0.14);
+  --grid-line: rgba(77, 192, 255, 0.10);
+  --vignette:  rgba(5, 10, 24, 0.85);
+
+  --glass-bg:            linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+  --glass-bg-strong:     linear-gradient(135deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04));
+  --glass-border:        rgba(255, 255, 255, 0.10);
+  --glass-border-strong: rgba(255, 255, 255, 0.16);
+  --glass-rim:           rgba(77, 192, 255, 0.45);
+  --glass-shadow:        0 10px 40px -10px rgba(0,0,0,0.70), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(77,192,255,0.06);
+  --glass-shadow-strong: 0 18px 60px -12px rgba(0,0,0,0.80), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(77,192,255,0.10);
+  --glass-sheen:         rgba(186, 230, 253, 0.16);
+
+  --glow-color:          rgba(56, 170, 240, 0.30);
+  --glow-color-strong:   rgba(56, 170, 240, 0.60);
+  --nav-border:          rgba(56, 170, 240, 0.14);
+  --logo-glow:           rgba(56, 170, 240, 0.30);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+html { transition: background-color 0.4s ease; background: var(--bg); }
+
+/* no body background: it would paint over the fixed z:-10 .liquid-bg layer */
+body {
+  color: var(--fg);
+  min-height: 100vh;
+  font-family: 'Inter', 'Cairo', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: 'Space Grotesk', 'Cairo', system-ui, sans-serif; letter-spacing: -0.01em; }
+
+html[dir='rtl'] body,
+html[dir='rtl'] h1, html[dir='rtl'] h2, html[dir='rtl'] h3, html[dir='rtl'] h4 {
+  font-family: 'Cairo', 'Inter', system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+::selection { background: rgba(var(--accent-rgb), 0.35); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px var(--glow-color); }
+  50%       { box-shadow: 0 0 40px var(--glow-color-strong); }
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(30px); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+@keyframes glitch {
+  0%   { transform: translate(0); }
+  20%  { transform: translate(-2px,  2px); }
+  40%  { transform: translate(-2px, -2px); }
+  60%  { transform: translate( 2px,  2px); }
+  80%  { transform: translate( 2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes float-rotate {
+  0%, 100% { transform: translateY(0px)   rotate(0deg);   }
+  50%       { transform: translateY(-20px) rotate(180deg); }
+}
+
+@keyframes morph {
+  0%, 100% { border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%; }
+  33%      { border-radius: 63% 37% 38% 62% / 58% 63% 37% 42%; }
+  66%      { border-radius: 36% 64% 52% 48% / 35% 52% 48% 65%; }
+}
+
+@keyframes drift-1 { 0%,100% { transform: translate(0,0) scale(1); }      50% { transform: translate(12vw, 8vh) scale(1.15); } }
+@keyframes drift-2 { 0%,100% { transform: translate(0,0) scale(1.1); }    50% { transform: translate(-10vw, 12vh) scale(0.9); } }
+@keyframes drift-3 { 0%,100% { transform: translate(0,0) scale(0.95); }   50% { transform: translate(8vw, -10vh) scale(1.2); } }
+@keyframes drift-4 { 0%,100% { transform: translate(0,0) scale(1); }      50% { transform: translate(-6vw, -8vh) scale(1.1); } }
+
+@keyframes grid-move { from { background-position: 0 0, 0 0; } to { background-position: 0 64px, 64px 0; } }
+@keyframes scan      { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
+@keyframes spin      { to { transform: rotate(360deg); } }
+@keyframes spin-rev  { to { transform: rotate(-360deg); } }
+@keyframes shimmer   { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@keyframes ping-soft { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(2.4); opacity: 0; } }
+@keyframes bob       { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes scroll-dot { 0% { transform: translateY(0); opacity: 1; } 80% { transform: translateY(14px); opacity: 0; } 100% { opacity: 0; } }
+
+/* ============================================================
+   ANIMATION UTILITY CLASSES
+   ============================================================ */
+
+.animate-float        { animation: float        6s ease-in-out infinite; }
+.animate-pulse-glow   { animation: pulse-glow   3s ease-in-out infinite; }
+/* Don't apply box-shadow glow to inline text spans — looks bad */
+span.animate-pulse-glow { animation: none; box-shadow: none; }
+.animate-gradient     { background-size: 200% 200%; animation: gradient-shift 8s ease infinite; }
+.animate-slide-in     { animation: slide-in     0.9s cubic-bezier(.2,.7,.2,1) both; }
+.animate-glitch       { animation: glitch       0.3s ease-in-out infinite; }
+.animate-float-rotate { animation: float-rotate 6s ease-in-out infinite; }
+
+/* ============================================================
+   LIQUID BACKGROUND  (components/LiquidBackground.tsx)
+   ============================================================ */
+
+.liquid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.liquid-blob {
+  position: absolute;
+  width: 46vmax;
+  height: 46vmax;
+  filter: blur(70px);
+  animation: morph 18s ease-in-out infinite, var(--drift) 26s ease-in-out infinite;
+  will-change: transform, border-radius;
+}
+.liquid-blob--1 { top: -14vmax; inset-inline-start: -10vmax; background: var(--blob-1); --drift: drift-1; }
+.liquid-blob--2 { top: 20vh;    inset-inline-end: -16vmax;   background: var(--blob-2); --drift: drift-2; animation-delay: -6s, -4s; }
+.liquid-blob--3 { bottom: -18vmax; inset-inline-start: 18vw; background: var(--blob-3); --drift: drift-3; animation-delay: -12s, -9s; }
+.liquid-blob--4 { top: 45vh; inset-inline-start: -8vmax; width: 30vmax; height: 30vmax; background: var(--blob-4); --drift: drift-4; animation-delay: -3s, -14s; }
+
+.liquid-grid {
+  position: absolute;
+  inset-inline: -50%;
+  bottom: -10%;
+  height: 70%;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(500px) rotateX(62deg);
+  transform-origin: center top;
+  animation: grid-move 4s linear infinite;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
+}
+
+.liquid-scan {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 18vh;
+  background: linear-gradient(to bottom, transparent, rgba(var(--accent-rgb), 0.05), transparent);
+  animation: scan 9s linear infinite;
+}
+
+.liquid-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, var(--vignette) 100%);
+}
+
+/* ============================================================
+   LIQUID GLASS
+   Layered: tinted gradient body + blur/saturate refraction,
+   a gradient rim (::before), and a pointer-tracking specular
+   highlight (::after, fed --mx/--my by LiquidBackground).
+   Lives in the components layer so utilities (sticky, absolute,
+   rounded-*) still win and `hover:glass-effect-strong` works.
+   ============================================================ */
+
+@layer components {
+  .glass-effect,
+  .glass-effect-strong {
+    position: relative;
+    isolation: isolate;
+    background: var(--glass-bg);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: box-shadow .35s ease, transform .35s cubic-bezier(.2,.7,.2,1), background .35s ease, border-color .35s ease;
+  }
+
+  .glass-effect-strong {
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(26px) saturate(200%);
+    -webkit-backdrop-filter: blur(26px) saturate(200%);
+    border-color: var(--glass-border-strong);
+    box-shadow: var(--glass-shadow-strong);
+  }
+
+  /* gradient rim — catches light on the top-start edge */
+  .glass-effect::before,
+  .glass-effect-strong::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--glass-rim), transparent 35%, transparent 65%, rgba(var(--accent-rgb), 0.18));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* specular highlight that follows the pointer */
+  .glass-effect::after,
+  .glass-effect-strong::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(240px circle at var(--mx, 50%) var(--my, -40%), var(--glass-sheen), transparent 60%);
+    opacity: 0;
+    transition: opacity .4s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .glass-effect:hover::after,
+  .glass-effect-strong:hover::after { opacity: 1; }
+
+  /* ---- Semantic text helpers ---- */
+  .text-fg     { color: var(--fg); }
+  .text-muted  { color: var(--fg-muted); }
+  .text-accent { color: var(--accent); }
+
+  .text-gradient {
+    background: linear-gradient(100deg, var(--accent), var(--accent-2), var(--accent));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    animation: shimmer 6s linear infinite;
+  }
+
+  /* ---- Liquid button ---- */
+  .btn-liquid {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 0.95rem 1.9rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    box-shadow: 0 10px 30px -8px rgba(var(--accent-rgb), .55), inset 0 1px 0 rgba(255,255,255,.45);
+    overflow: hidden;
+    transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease;
+  }
+  html.dark .btn-liquid { color: #04122a; }
+  .btn-liquid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.45) 50%, transparent 70%);
+    background-size: 250% 100%;
+    animation: shimmer 3.5s ease-in-out infinite;
+  }
+  .btn-liquid:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 16px 40px -8px rgba(var(--accent-rgb), .7), inset 0 1px 0 rgba(255,255,255,.5); }
+
+  .btn-glass {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 0.95rem 1.9rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    color: var(--fg);
+  }
+  .btn-glass:hover { transform: translateY(-2px); }
+
+  /* ---- Section eyebrow / badge ---- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .4rem 1rem;
+    border-radius: 9999px;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  html[dir='rtl'] .eyebrow { letter-spacing: 0; }
+
+  /* ---- Lift + glow on hover ---- */
+  .card-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--glass-shadow-strong), 0 0 0 1px rgba(var(--accent-rgb), .25), 0 20px 50px -20px rgba(var(--accent-rgb), .45);
+  }
+}
+
+/* ============================================================
+   SCROLL REVEAL  (hooks/useReveal.ts)
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(6px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1), filter .9s ease;
+  transition-delay: var(--delay, 0ms);
+}
+.reveal.is-visible { opacity: 1; transform: none; filter: none; }
+
+/* ============================================================
+   HERO ORB
+   ============================================================ */
+
+.orb {
+  position: relative;
+  width: min(420px, 78vw);
+  aspect-ratio: 1;
+}
+.orb-core {
+  position: absolute;
+  inset: 14%;
+  background: conic-gradient(from 0deg, var(--accent), var(--accent-2), #6366f1, var(--accent));
+  animation: morph 12s ease-in-out infinite, spin 20s linear infinite;
+  filter: blur(18px) saturate(140%);
+  opacity: .85;
+}
+.orb-glass {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), rgba(255,255,255,.08) 35%, transparent 60%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.35);
+  box-shadow: inset 0 -20px 60px rgba(var(--accent-rgb), .35), inset 0 10px 30px rgba(255,255,255,.25), 0 30px 80px -20px rgba(var(--accent-rgb), .5);
+}
+.orb-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px dashed rgba(var(--accent-rgb), .35);
+  animation: spin 40s linear infinite;
+}
+.orb-ring--2 { inset: 7%; border-style: solid; border-color: rgba(var(--accent-rgb), .18); animation: spin-rev 28s linear infinite; }
+.orb-ring > i {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 16px 4px rgba(var(--accent-rgb), .7);
+}
+.orb-chip {
+  position: absolute;
+  padding: .5rem .9rem;
+  border-radius: 14px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--fg);
+  animation: bob 5s ease-in-out infinite;
+}
+
+.ping-dot { position: relative; width: 8px; height: 8px; border-radius: 9999px; background: var(--accent); }
+.ping-dot::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: var(--accent); animation: ping-soft 1.8s ease-out infinite; }
+
+.scroll-hint { width: 22px; height: 36px; border-radius: 9999px; border: 1.5px solid rgba(var(--accent-rgb), .5); display: flex; justify-content: center; padding-top: 6px; }
+.scroll-hint > span { width: 4px; height: 8px; border-radius: 9999px; background: var(--accent); animation: scroll-dot 1.8s ease-in-out infinite; }
+
+/* ============================================================
+   VIDEO HELPERS
+   ============================================================ */
+
+video { object-fit: cover; object-position: center; }
+.video-position-top    { object-position: center 20% !important; }
+.video-position-upper  { object-position: center 30% !important; }
+.video-position-center { object-position: center 50% !important; }
+.video-position-lower  { object-position: center 70% !important; }
+.video-position-bottom { object-position: center 80% !important; }
+.video-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+/* ============================================================
+   LOGO HOVER  (theme-aware glow)
+   ============================================================ */
+
+.logo-hover {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+.logo-hover:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 8px var(--logo-glow)) drop-shadow(0 0 12px var(--logo-glow));
+}
+
+/* ============================================================
+   ██████  DARK MODE — Navy + Sky blue
+   All blue Tailwind classes → yellow equivalents
+   ============================================================ */
+
+/* — Text — */
+html.dark .text-blue-100   { color: #e0f2fe !important; }
+html.dark .text-blue-200   { color: #bae6fd !important; }
+html.dark .text-blue-300   { color: #7dd3fc !important; }
+html.dark .text-blue-400   { color: #4dc0ff !important; }
+html.dark .text-blue-500   { color: #38aaf0 !important; }
+html.dark .text-green-300  { color: #7dd3fc !important; }
+html.dark .text-purple-300 { color: #7dd3fc !important; }
+html.dark .text-orange-300 { color: #4dc0ff !important; }
+html.dark .text-yellow-400 { color: #4dc0ff !important; }
+
+/* — Backgrounds — */
+html.dark .bg-blue-500\/20   { background-color: rgba(56,170,240,0.18) !important; }
+html.dark .bg-blue-500\/30   { background-color: rgba(56,170,240,0.28) !important; }
+html.dark .bg-blue-500\/50   { background-color: rgba(56,170,240,0.45) !important; }
+html.dark .bg-blue-600       { background-color: #0284c7 !important; }
+html.dark .bg-blue-900       { background-color: #04122a !important; }
+html.dark .bg-purple-500\/30 { background-color: rgba(56,170,240,0.22) !important; }
+html.dark .bg-green-500\/30  { background-color: rgba(56,170,240,0.22) !important; }
+html.dark .bg-orange-500\/30 { background-color: rgba(56,170,240,0.22) !important; }
+html.dark .bg-red-500\/30    { background-color: rgba(56,170,240,0.18) !important; }
+
+/* — Borders — */
+html.dark .border-blue-400\/20  { border-color: rgba(56,170,240,0.20) !important; }
+html.dark .border-blue-400\/30  { border-color: rgba(56,170,240,0.32) !important; }
+html.dark .border-blue-400      { border-color: rgba(56,170,240,0.70) !important; }
+html.dark .border-red-400\/30   { border-color: rgba(56,170,240,0.30) !important; }
+
+/* — Focus rings — */
+html.dark .focus\:ring-blue-400:focus   { --tw-ring-color: rgba(56,170,240,0.50) !important; }
+html.dark .focus\:border-blue-400:focus { border-color: rgba(56,170,240,0.80) !important; }
+
+/* — Hover backgrounds — */
+html.dark .hover\:bg-blue-500\/20:hover { background-color: rgba(56,170,240,0.18) !important; }
+html.dark .hover\:bg-blue-500\/30:hover { background-color: rgba(56,170,240,0.28) !important; }
+html.dark .hover\:bg-blue-500\/50:hover { background-color: rgba(56,170,240,0.45) !important; }
+html.dark .hover\:bg-blue-700:hover     { background-color: #0369a1 !important; }
+
+/* — Gradient stops — */
+html.dark .from-blue-500\/30, html.dark .from-blue-600\/30 {
+  --tw-gradient-from:  rgba(56,170,240,0.28) var(--tw-gradient-from-position);
+  --tw-gradient-to:    rgba(56,170,240,0)    var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+html.dark .via-purple-600\/30 { --tw-gradient-via: rgba(2,132,199,0.26) var(--tw-gradient-via-position); }
+html.dark .to-blue-600\/30    { --tw-gradient-to:  rgba(56,170,240,0.28) var(--tw-gradient-to-position); }
+html.dark .to-purple-500\/30  { --tw-gradient-to:  rgba(56,170,240,0.22) var(--tw-gradient-to-position); }
+
+/* ============================================================
+   ██████  LIGHT MODE — White + Blue
+   Blue → Brand blue accents, dark text on white glass
+   ============================================================ */
+
+/* — All text-white → dark in light mode — */
+html:not(.dark) .text-white {
+  color: #111827 !important;
+}
+/* — Except: text-white DIRECTLY on a glass card (button/badge with glass bg) — */
+html:not(.dark) a.glass-effect,
+html:not(.dark) a.glass-effect-strong,
+html:not(.dark) button.glass-effect,
+html:not(.dark) button.glass-effect-strong {
+  color: #111827 !important;
+}
+
+/* — Text accents (blue → brand blue) — */
+html:not(.dark) .text-blue-100   { color: #6b7280 !important; } /* gray-500  */
+html:not(.dark) .text-blue-200   { color: #374151 !important; } /* gray-700  */
+html:not(.dark) .text-blue-300   { color: #0b6fc2 !important; } /* red-600   */
+html:not(.dark) .text-blue-400   { color: #095a9e !important; } /* red-700   */
+html:not(.dark) .text-blue-500   { color: #074a82 !important; } /* red-800   */
+html:not(.dark) .text-green-300  { color: #0b6fc2 !important; }
+html:not(.dark) .text-purple-300 { color: #0b6fc2 !important; }
+html:not(.dark) .text-orange-300 { color: #095a9e !important; }
+html:not(.dark) .text-yellow-400 { color: #0369a1 !important; } /* amber-600 */
+
+/* — Backgrounds (blue → brand blue tint) — */
+html:not(.dark) .bg-blue-500\/20   { background-color: rgba(11,111,194,0.08)  !important; }
+html:not(.dark) .bg-blue-500\/30   { background-color: rgba(11,111,194,0.12)  !important; }
+html:not(.dark) .bg-blue-500\/50   { background-color: rgba(11,111,194,0.20)  !important; }
+html:not(.dark) .bg-blue-600       { background-color: #0b6fc2               !important; }
+html:not(.dark) .bg-blue-900       { background-color: #f0f7ff               !important; }
+html:not(.dark) .bg-purple-500\/30 { background-color: rgba(11,111,194,0.09)  !important; }
+html:not(.dark) .bg-green-500\/30  { background-color: rgba(11,111,194,0.09)  !important; }
+html:not(.dark) .bg-orange-500\/30 { background-color: rgba(11,111,194,0.09)  !important; }
+html:not(.dark) .bg-red-500\/30    { background-color: rgba(11,111,194,0.12)  !important; }
+
+/* — Borders (blue → brand blue) — */
+html:not(.dark) .border-blue-400\/20  { border-color: rgba(11,111,194,0.15) !important; }
+html:not(.dark) .border-blue-400\/30  { border-color: rgba(11,111,194,0.25) !important; }
+html:not(.dark) .border-blue-400      { border-color: rgba(11,111,194,0.60) !important; }
+html:not(.dark) .border-red-400\/30   { border-color: rgba(11,111,194,0.25) !important; }
+
+/* — Focus (red) — */
+html:not(.dark) .focus\:ring-blue-400:focus   { --tw-ring-color: rgba(11,111,194,0.40) !important; }
+html:not(.dark) .focus\:border-blue-400:focus { border-color: rgba(11,111,194,0.65)   !important; }
+
+/* — Hover backgrounds — */
+html:not(.dark) .hover\:bg-blue-500\/20:hover { background-color: rgba(11,111,194,0.08) !important; }
+html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(11,111,194,0.14) !important; }
+html:not(.dark) .hover\:bg-blue-500\/50:hover { background-color: rgba(11,111,194,0.22) !important; }
+html:not(.dark) .hover\:bg-blue-700:hover     { background-color: #095a9e              !important; }
+
+/* — hover:text-white → red in light mode — */
+html:not(.dark) .hover\:text-white:hover {
+  color: #0b6fc2 !important;
+}
+
+/* — Placeholders — */
+html:not(.dark) .placeholder-blue-200::placeholder { color: #9ca3af !important; }
+
+/* — Gradient stops (blue → brand blue) — */
+html:not(.dark) .from-blue-500\/30, html:not(.dark) .from-blue-600\/30 {
+  --tw-gradient-from:  rgba(11,111,194,0.14) var(--tw-gradient-from-position);
+  --tw-gradient-to:    rgba(11,111,194,0)    var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+html:not(.dark) .via-purple-600\/30  { --tw-gradient-via: rgba(9,90,158,0.12) var(--tw-gradient-via-position); }
+html:not(.dark) .to-blue-600\/30     { --tw-gradient-to:  rgba(11,111,194,0.14) var(--tw-gradient-to-position); }
+html:not(.dark) .to-purple-500\/30   { --tw-gradient-to:  rgba(9,90,158,0.10) var(--tw-gradient-to-position); }
+html:not(.dark) .from-blue-900\/40 {
+  --tw-gradient-from:  rgba(7,74,130,0.40) var(--tw-gradient-from-position);
+  --tw-gradient-to:    rgba(7,74,130,0)    var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+html:not(.dark) .via-blue-800\/30  { --tw-gradient-via: rgba(22,33,82,0.30) var(--tw-gradient-via-position); }
+html:not(.dark) .to-purple-900\/40 { --tw-gradient-to:  rgba(22,33,82,0.35) var(--tw-gradient-to-position); }
+
+/* ============================================================
+   COURSE PAGES — drop their opaque blue page gradient so the
+   liquid background shows through; inputs become frosted glass.
+   ============================================================ */
+
+.min-h-screen.bg-gradient-to-br.from-blue-900 { background-image: none !important; }
+html.dark       .bg-blue-900\/30 { background-color: rgba(255,255,255,0.05) !important; }
+html:not(.dark) .bg-blue-900\/30 { background-color: rgba(255,255,255,0.60) !important; }
+
+/* ============================================================
+   SOFT PALETTE — solid page buttons become soft liquid pills,
+   hero overlays stop greying the background, badges stay legible.
+   ============================================================ */
+
+/* primary solid buttons (bg-blue-600 / bg-blue-500) */
+html .bg-blue-600,
+html .bg-blue-500 {
+  background-image: linear-gradient(120deg, var(--accent), var(--accent-2)) !important;
+  background-color: var(--accent) !important;
+  color: #fff !important;
+  border: 0;
+  box-shadow: 0 8px 22px -10px rgba(var(--accent-rgb), .55), inset 0 1px 0 rgba(255,255,255,.35);
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+}
+html.dark .bg-blue-600,
+html.dark .bg-blue-500 { color: #04122a !important; }
+html .hover\:bg-blue-700:hover {
+  background-image: linear-gradient(120deg, var(--accent), var(--accent-2)) !important;
+  filter: brightness(1.06) saturate(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px -10px rgba(var(--accent-rgb), .7), inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+/* success / secondary solid buttons (bg-green-600) */
+html .bg-green-600 {
+  background-image: linear-gradient(120deg, #3fb68b, #7fd1ae) !important;
+  background-color: #3fb68b !important;
+  color: #fff !important;
+  box-shadow: 0 8px 22px -10px rgba(63,182,139,.55), inset 0 1px 0 rgba(255,255,255,.35);
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+}
+html.dark .bg-green-600 { background-image: linear-gradient(120deg, #2f9e78, #4fbf95) !important; }
+html .hover\:bg-green-700:hover { filter: brightness(1.05); transform: translateY(-1px); }
+
+/* text-white inside solid buttons must stay white in light mode */
+html:not(.dark) .bg-blue-600.text-white,
+html:not(.dark) .bg-blue-500.text-white,
+html:not(.dark) .bg-green-600.text-white { color: #fff !important; }
+
+/* hero darkening overlays */
+html:not(.dark) .bg-black\/20 { background-color: transparent !important; }
+html.dark       .bg-black\/20 { background-color: rgba(0,0,0,0.12) !important; }
+
+/* amber "Featured" badges */
+html:not(.dark) .bg-yellow-500\/20 { background-color: rgba(14,165,233,0.14) !important; }
+html:not(.dark) .text-yellow-300   { color: #075985 !important; }
+html:not(.dark) .text-yellow-200   { color: #075985 !important; }
+
+/* status text that was tuned for dark backgrounds */
+html:not(.dark) .text-red-300   { color: #095a9e !important; }
+html:not(.dark) .text-red-200   { color: #074a82 !important; }
+html:not(.dark) .text-green-200 { color: #2f855a !important; }
+html:not(.dark) .text-pink-300  { color: #3b5bdb !important; }
+html:not(.dark) .text-indigo-300 { color: #5b5fc7 !important; }
+
+/* dropdown menus: mostly opaque so page content doesn't show through the items */
+.menu-surface { background: rgba(255, 255, 255, 0.985) !important; }
+html.dark .menu-surface { background: rgba(10, 16, 32, 0.985) !important; }
+
+/* soft placeholder / hint text in every form (inputs used bright placeholder-blue-* utilities) */
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder { color: #a8a29e !important; opacity: 1; }
+html.dark input::placeholder,
+html.dark textarea::placeholder { color: rgba(203, 213, 225, 0.42) !important; opacity: 1; }
+
+/* text placed over photos must stay white in both themes */
+html:not(.dark) .on-media,
+html.dark .on-media,
+html:not(.dark) .on-media .text-white { color: #fff !important; }
+
+/* inner info panels (course stats, sidebars, tag chips) */
+html:not(.dark) .bg-blue-800\/30,
+html:not(.dark) .bg-blue-800\/20,
+html:not(.dark) .bg-blue-900\/50 { background-color: rgba(255,255,255,0.55) !important; box-shadow: inset 0 0 0 1px rgba(11,111,194,0.10); }
+html.dark .bg-blue-800\/30,
+html.dark .bg-blue-800\/20,
+html.dark .bg-blue-900\/50 { background-color: rgba(255,255,255,0.05) !important; box-shadow: inset 0 0 0 1px rgba(77,192,255,0.10); }
+
+/* error / notice boxes */
+html:not(.dark) .bg-red-500\/20 { background-color: rgba(11,111,194,0.08) !important; }
+
+/* ============================================================
+   ██████  RTL (Arabic)
+   Pages use physical utilities (mr-2, left-3, space-x-4 …);
+   mirror them here so every page flips without per-file edits.
+   ============================================================ */
+
+/* space-x-* : Tailwind's own reverse switch */
+html[dir='rtl'] [class*='space-x-'] > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 1; }
+
+/* margins */
+html[dir='rtl'] .mr-1 { margin-right: 0; margin-left: 0.25rem; }
+html[dir='rtl'] .mr-2 { margin-right: 0; margin-left: 0.5rem; }
+html[dir='rtl'] .mr-3 { margin-right: 0; margin-left: 0.75rem; }
+html[dir='rtl'] .mr-4 { margin-right: 0; margin-left: 1rem; }
+html[dir='rtl'] .ml-1 { margin-left: 0; margin-right: 0.25rem; }
+html[dir='rtl'] .ml-2 { margin-left: 0; margin-right: 0.5rem; }
+html[dir='rtl'] .ml-3 { margin-left: 0; margin-right: 0.75rem; }
+html[dir='rtl'] .ml-4 { margin-left: 0; margin-right: 1rem; }
+html[dir='rtl'] .ml-6 { margin-left: 0; margin-right: 1.5rem; }
+html[dir='rtl'] .ml-auto { margin-left: 0; margin-right: auto; }
+html[dir='rtl'] .mr-auto { margin-right: 0; margin-left: auto; }
+
+/* padding */
+html[dir='rtl'] .pl-10 { padding-left: 0; padding-right: 2.5rem; }
+html[dir='rtl'] .pr-4  { padding-right: 0; padding-left: 1rem; }
+html[dir='rtl'] .pr-10 { padding-right: 0; padding-left: 2.5rem; }
+/* inputs with a leading icon use both: keep icon room on the right, text gap on the left */
+html[dir='rtl'] .pl-10.pr-4 { padding-right: 2.5rem; padding-left: 1rem; }
+
+/* absolute offsets */
+html[dir='rtl'] .left-2  { left: auto; right: 0.5rem; }
+html[dir='rtl'] .left-3  { left: auto; right: 0.75rem; }
+html[dir='rtl'] .left-4  { left: auto; right: 1rem; }
+html[dir='rtl'] .right-2 { right: auto; left: 0.5rem; }
+html[dir='rtl'] .right-3 { right: auto; left: 0.75rem; }
+html[dir='rtl'] .right-4 { right: auto; left: 1rem; }
+
+/* text alignment */
+html[dir='rtl'] .text-left  { text-align: right; }
+html[dir='rtl'] .text-right { text-align: left; }
+
+/* directional icons point the other way */
+html[dir='rtl'] .lucide-arrow-right,
+html[dir='rtl'] .lucide-arrow-left,
+html[dir='rtl'] .lucide-chevron-right,
+html[dir='rtl'] .lucide-chevron-left { transform: scaleX(-1); }
+
+/* phone numbers, emails, code stay LTR inside Arabic text */
+.ltr { direction: ltr; unicode-bidi: isolate; }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .reveal { opacity: 1; transform: none; filter: none; }
+}

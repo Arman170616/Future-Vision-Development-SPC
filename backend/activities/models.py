@@ -18,7 +18,7 @@ class Activity(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField()
     type = models.CharField(max_length=50, choices=ACTIVITY_TYPES)
-    image = models.URLField()
+    image = models.CharField(max_length=500, help_text='Full URL (https://…) or a path on the website, e.g. /images/flood.jpg')
     description = models.TextField()
     participants = models.CharField(max_length=50)  # e.g., "500+", "150+"
 
@@ -90,7 +90,7 @@ class Gallery(models.Model):
     category = models.CharField(max_length=20, choices=GALLERY_CATEGORIES, default='other')
     
     # Media files
-    image_url = models.URLField(blank=True, help_text="URL for photos (e.g., from cloud storage)")
+    image_url = models.CharField(max_length=500, blank=True, help_text="Full URL (https://…) or a path on the website, e.g. /images/flood.jpg")
     video_url = models.URLField(blank=True, help_text="URL for videos (e.g., YouTube, Vimeo)")
     thumbnail_url = models.URLField(blank=True, help_text="Thumbnail image URL for videos")
     

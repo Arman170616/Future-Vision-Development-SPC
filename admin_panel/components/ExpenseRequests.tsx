@@ -155,7 +155,8 @@ export default function ExpenseRequests({ onDecided }: { onDecided?: () => void 
                   <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
                     <span>{item.mine ? 'You' : item.requested_by} · {timeAgo(item.created_at)}</span>
                     <span>{item.category}</span>
-                    {item.project && <span className="flex items-center gap-1 text-accent"><FolderKanban className="h-3.5 w-3.5" /> {item.project.title}</span>}
+                    {/* Projects are not used by Future Vision Development.
+                    {item.project && <span className="flex items-center gap-1 text-accent"><FolderKanban className="h-3.5 w-3.5" /> {item.project.title}</span>} */}
                     {item.paid_to && <span>To: {item.paid_to}</span>}
                     {item.needed_by && <span className="flex items-center gap-1"><CalendarClock className="h-3.5 w-3.5" /> Needed by {day(item.needed_by)}</span>}
                   </div>

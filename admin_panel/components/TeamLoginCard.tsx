@@ -110,7 +110,7 @@ export default function TeamLoginCard({ memberId }: { memberId: number | string 
   const copy = async () => {
     if (!issued) return;
     const loginUrl = `${window.location.origin}/admin/`;
-    await navigator.clipboard.writeText(`FutureInnvo admin panel\n${loginUrl}\nUsername: ${issued.username}\nPassword: ${issued.password}`).catch(() => undefined);
+    await navigator.clipboard.writeText(`Future Vision Development admin panel\n${loginUrl}\nUsername: ${issued.username}\nPassword: ${issued.password}`).catch(() => undefined);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 2000);
   };
@@ -124,7 +124,7 @@ export default function TeamLoginCard({ memberId }: { memberId: number | string 
       </h2>
       <div className="space-y-4 p-5">
         <p className="text-sm text-muted">
-          With a login, {info.member} can sign in at <span className="font-medium text-ink">futureinnvo.com/admin</span> to see the tasks assigned
+          With a login, {info.member} can sign in at <span className="font-medium text-ink">{typeof window === 'undefined' ? '/admin' : `${window.location.host}/admin`}</span> to see the tasks assigned
           to them, update their status, write progress notes and raise expense requests. They cannot see anything else.
         </p>
 
@@ -151,6 +151,8 @@ export default function TeamLoginCard({ memberId }: { memberId: number | string 
         ) : null}
 
         {info.has_login ? (
+          null
+          /* Expense requests (CEO approval) are switched off for now — uncomment to bring back the approver switch.
           <label className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition ${info.is_approver ? 'border-orange-400/50 bg-orange-500/[0.07]' : 'border-line'}`}>
             <input
               type="checkbox"
@@ -166,6 +168,7 @@ export default function TeamLoginCard({ memberId }: { memberId: number | string 
               </span>
             </span>
           </label>
+          */
         ) : (
           mode !== 'create' && (
             <button type="button" onClick={() => open('create')} className="btn-primary"><UserPlus className="h-4 w-4" /> Create login</button>

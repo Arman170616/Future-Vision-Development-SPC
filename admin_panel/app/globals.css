@@ -2,38 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-/* FutureInnvo admin — liquid-glass look matching the public site (coral light / gold dark) */
+/* Future Vision Development admin — liquid-glass look matching the public site (brand blue light / sky blue dark) */
 :root {
-  --canvas: 250 247 245;
+  --canvas: 244 248 252;
   --surface: 255 255 255;
-  --line: 234 226 222;
-  --ink: 31 27 25;
-  --muted: 113 106 101;
-  --accent: 217 83 79;
-  --accent-2: 244 160 122;
+  --line: 221 230 240;
+  --ink: 17 24 39;
+  --muted: 96 108 124;
+  --accent: 11 111 194;
+  --accent-2: 34 166 232;
   --on-accent: 255 255 255;
   --glass: 255 255 255;
   --glass-alpha: 0.72;
-  --blob-1: 248 113 113;
-  --blob-2: 253 186 140;
-  --blob-3: 167 214 230;
+  --blob-1: 56 152 226;
+  --blob-2: 125 211 252;
+  --blob-3: 165 180 252;
   color-scheme: light;
 }
 
 .dark {
-  --canvas: 10 9 14;
-  --surface: 23 22 30;
-  --line: 46 43 56;
-  --ink: 244 243 241;
-  --muted: 165 160 156;
-  --accent: 234 179 8;
-  --accent-2: 251 146 60;
-  --on-accent: 26 18 0;
-  --glass: 26 24 34;
+  --canvas: 5 10 24;
+  --surface: 14 22 42;
+  --line: 34 46 72;
+  --ink: 241 245 249;
+  --muted: 160 174 192;
+  --accent: 77 192 255;
+  --accent-2: 165 180 252;
+  --on-accent: 4 18 42;
+  --glass: 14 22 42;
   --glass-alpha: 0.68;
-  --blob-1: 234 179 8;
-  --blob-2: 249 115 22;
-  --blob-3: 190 18 60;
+  --blob-1: 56 170 240;
+  --blob-2: 99 102 241;
+  --blob-3: 67 56 202;
   color-scheme: dark;
 }
 

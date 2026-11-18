@@ -26,7 +26,7 @@ function LoginForm() {
   }, [ready, user, router, next]);
 
   useEffect(() => {
-    document.title = 'Log in | FutureInnvo Administration';
+    document.title = 'Log in | Future Vision Development Administration';
   }, []);
 
   const submit = async (e: FormEvent) => {
@@ -50,20 +50,20 @@ function LoginForm() {
         {/* Brand panel */}
         <div
           className="relative hidden flex-col justify-between overflow-hidden p-10 text-white md:flex"
-          style={{ background: 'linear-gradient(145deg, rgb(var(--accent)), rgb(var(--accent-2)))' }}
+          style={{ background: 'linear-gradient(145deg, #0b6fc2 0%, #1d4f9a 55%, #161b52 100%)' }}
         >
           <span className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-white/15 blur-2xl animate-[drift-b_18s_ease-in-out_infinite]" aria-hidden />
           <span className="absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-black/10 blur-2xl animate-[drift-a_22s_ease-in-out_infinite]" aria-hidden />
           <div className="relative flex items-center gap-3">
             <Logo size={56} className="!border-white/40 !shadow-black/10" />
             <div className="leading-tight">
-              <div className="text-xl font-extrabold tracking-wide">FUTUREINNVO</div>
-              <div className="text-sm text-white/80">Administration</div>
+              <div className="text-xl font-extrabold tracking-wide">FUTURE VISION</div>
+              <div className="text-sm text-white/80">Development SPC · Administration</div>
             </div>
           </div>
           <div className="relative my-10">
             <h2 className="text-3xl font-bold leading-tight">Run the whole company from one place.</h2>
-            <p className="mt-3 max-w-sm text-sm text-white/85">Website content, tasks, expenses and your team — all in the FutureInnvo admin panel.</p>
+            <p className="mt-3 max-w-sm text-sm text-white/85">Website content, claims tasks, expenses and your team — all in the Future Vision Development admin panel.</p>
           </div>
           <ul className="relative space-y-3 text-sm">
             {[
@@ -84,7 +84,7 @@ function LoginForm() {
           <div className="mb-8">
             <Logo size={64} className="mb-5 md:hidden" />
             <h1 className="text-2xl font-bold">Welcome back</h1>
-            <p className="mt-1 text-sm text-muted">Sign in to the FutureInnvo admin panel</p>
+            <p className="mt-1 text-sm text-muted">Sign in to the Future Vision Development admin panel</p>
           </div>
 
           {error && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300">{error}</div>}

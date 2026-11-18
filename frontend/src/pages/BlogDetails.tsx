@@ -17,13 +17,13 @@ const BlogDetails = () => {
       ? {
           title: post.title,
           description: summary(post.excerpt || post.content),
-          image: post.image ? mediaUrl(post.image) : null,
+          image: post.image ? (post.image.startsWith('/') ? post.image : mediaUrl(post.image)) : null,
           type: 'article',
           jsonLd: {
             '@type': 'BlogPosting',
             headline: post.title,
             description: summary(post.excerpt || post.content, 300),
-            image: post.image ? mediaUrl(post.image) : undefined,
+            image: post.image ? (post.image.startsWith('/') ? `https://futureinnvo.com${post.image}` : mediaUrl(post.image)) : undefined,
             datePublished: post.published_at,
             author: { '@type': 'Person', name: post.author },
             publisher: { '@id': 'https://futureinnvo.com/#organization' },
@@ -53,6 +53,7 @@ const BlogDetails = () => {
   }, [slug]);
 
   // Fallback static data
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- only its type is used; the sample data is no longer shown
   const fallbackPost = {
     id: 1,
     title: 'The Future of AI in Business: Transforming Industries',

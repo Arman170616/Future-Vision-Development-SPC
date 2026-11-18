@@ -25,7 +25,7 @@ class BlogPost(models.Model):
     content = models.TextField()
     author = models.CharField(max_length=100)
     category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE, related_name='posts')
-    image = models.URLField()
+    image = models.CharField(max_length=500, help_text='Full URL (https://…) or a path on the website, e.g. /images/flood.jpg')
     read_time = models.CharField(max_length=20)  # e.g., "8 min read"
     featured = models.BooleanField(default=False)
 

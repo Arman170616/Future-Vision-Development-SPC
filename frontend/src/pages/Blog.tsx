@@ -21,6 +21,7 @@ interface PostRow {
 }
 
 // Shown only when the API has no posts
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- only its type is used; the sample data is no longer shown
 const fallbackPosts: PostRow[] = [
   {
     key: 'the-future-of-ai-in-software-development',

@@ -50,6 +50,7 @@ const Activities = () => {
   }, []);
 
   // Fallback static data for development
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- only its type is used; the sample data is no longer shown
   const fallbackActivities = [
     {
       id: 1,
@@ -143,6 +144,7 @@ const Activities = () => {
     }
   ];
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- only its type is used; the sample data is no longer shown
   const fallbackUpcomingEvents = [
     {
       title: 'AI & Machine Learning Workshop',
@@ -279,29 +281,14 @@ const Activities = () => {
         {/* Tab Content */}
         {activeTab === 'activities' && (
           <>
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-              <div className="glass-effect-strong p-6 rounded-xl text-center animate-float">
-                <div className="text-3xl font-bold text-blue-300 mb-2">25+</div>
-                <div className="text-blue-100">{tr('Events Hosted', 'فعاليات نظّمناها')}</div>
-              </div>
-              <div className="glass-effect-strong p-6 rounded-xl text-center animate-float" style={{ animationDelay: '1s' }}>
-                <div className="text-3xl font-bold text-green-300 mb-2">2000+</div>
-                <div className="text-blue-100">{tr('Participants', 'مشارك')}</div>
-              </div>
-              <div className="glass-effect-strong p-6 rounded-xl text-center animate-float" style={{ animationDelay: '2s' }}>
-                <div className="text-3xl font-bold text-purple-300 mb-2">50+</div>
-                <div className="text-blue-100">{tr('Partners', 'شريك')}</div>
-              </div>
-              <div className="glass-effect-strong p-6 rounded-xl text-center animate-float" style={{ animationDelay: '3s' }}>
-                <div className="text-3xl font-bold text-orange-300 mb-2">15+</div>
-                <div className="text-blue-100">{tr('Countries', 'دولة')}</div>
-              </div>
-            </div>
-
             {/* Past Activities */}
             <section className="mb-16">
               <h2 className="text-3xl font-bold text-white mb-8 animate-slide-in">{tr('Recent Activities', 'أحدث الأنشطة')}</h2>
+              {displayActivities.length === 0 && (
+                <p className="glass-effect rounded-xl p-6 text-center text-blue-100">
+                  {tr('News and activities will be published here soon.', 'سيتم نشر الأخبار والأنشطة هنا قريباً.')}
+                </p>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {displayActivities.map((activity) => (
                   <div key={activity.id} className="glass-effect-strong rounded-xl overflow-hidden hover:bg-blue-500/20 transition-all duration-300 animate-float">
@@ -464,15 +451,15 @@ const Activities = () => {
         {/* Community Impact */}
         <section>
           <div className="glass-effect-strong rounded-2xl p-8 md:p-12 text-white text-center">
-            <h2 className="text-3xl font-bold mb-4">{tr('Making a Difference Together', 'نصنع الفرق معاً')}</h2>
+            <h2 className="text-3xl font-bold mb-4">{tr('How We Work', 'كيف نعمل')}</h2>
             <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-              {tr("Our activities are more than just events – they're opportunities to learn, connect, and create positive change in our community and beyond.", 'أنشطتنا أكثر من مجرد فعاليات؛ إنها فرص للتعلّم والتواصل وإحداث تغيير إيجابي في مجتمعنا وخارجه.')}
+              {tr('Behind every report are people who go to site, listen to every party and keep learning.', 'وراء كل تقرير فريق يذهب إلى الموقع ويستمع إلى جميع الأطراف ويواصل التعلّم.')}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
                 <Heart className="h-12 w-12 text-pink-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">{tr('Community First', 'المجتمع أولاً')}</h3>
-                <p className="text-blue-100">{tr('We prioritize giving back to our community through education and outreach programs.', 'نحرص على رد الجميل لمجتمعنا عبر برامج التعليم والتوعية.')}</p>
+                <h3 className="text-xl font-semibold mb-2">{tr('On Site, Anywhere', 'في الموقع، أينما كان')}</h3>
+                <p className="text-blue-100">{tr('Engineers from our Muscat and Salalah divisions attend inspections across the Sultanate.', 'يحضر مهندسو فرعَي مسقط وصلالة المعاينات في جميع أنحاء السلطنة.')}</p>
               </div>
               <div className="text-center">
                 <Lightbulb className="h-12 w-12 text-yellow-300 mx-auto mb-4" />
@@ -481,8 +468,8 @@ const Activities = () => {
               </div>
               <div className="text-center">
                 <Globe className="h-12 w-12 text-green-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">{tr('Global Impact', 'أثر عالمي')}</h3>
-                <p className="text-blue-100">{tr('Working toward solutions that benefit not just our community, but the world.', 'نعمل على حلول تفيد مجتمعنا والعالم بأسره.')}</p>
+                <h3 className="text-xl font-semibold mb-2">{tr('Fair to Every Party', 'منصفون لكل الأطراف')}</h3>
+                <p className="text-blue-100">{tr('Good faith between insurers, customers and the policy that binds them together.', 'حسن النية بين شركات التأمين والعملاء ووثيقة التأمين التي تجمعهم.')}</p>
               </div>
             </div>
           </div>

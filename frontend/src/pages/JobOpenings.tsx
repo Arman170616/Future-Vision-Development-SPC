@@ -32,6 +32,7 @@ const JobOpenings = () => {
   }, []);
 
   // Fallback static data
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- only its type is used; the sample data is no longer shown
   const fallbackJobOpenings = [
     {
       id: 1,
@@ -181,12 +182,12 @@ const JobOpenings = () => {
             <div className="text-blue-100">{tr('Departments', 'الأقسام')}</div>
           </div>
           <div className="glass-effect-strong p-6 rounded-xl text-center animate-float" style={{ animationDelay: '0.4s' }}>
-            <div className="text-3xl font-bold text-purple-300 mb-2">10+</div>
-            <div className="text-blue-100">{tr('Team Members', 'أعضاء الفريق')}</div>
+            <div className="text-3xl font-bold text-purple-300 mb-2">7+</div>
+            <div className="text-blue-100">{tr('Years of Experience', 'سنوات من الخبرة')}</div>
           </div>
           <div className="glass-effect-strong p-6 rounded-xl text-center animate-float" style={{ animationDelay: '0.6s' }}>
-            <div className="text-3xl font-bold text-yellow-300 mb-2">2+</div>
-            <div className="text-blue-100">{tr('Countries', 'دول')}</div>
+            <div className="text-3xl font-bold text-yellow-300 mb-2">2</div>
+            <div className="text-blue-100">{tr('Divisions — Muscat & Salalah', 'فرعان — مسقط وصلالة')}</div>
           </div>
         </div>
 

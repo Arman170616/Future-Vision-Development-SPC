@@ -10,7 +10,8 @@ import {
 import AnimatedMoney from '@/components/AnimatedMoney';
 import BarChart, { Bar } from '@/components/BarChart';
 import DonutChart from '@/components/DonutChart';
-import ExpenseRequests from '@/components/ExpenseRequests';
+// Expense requests (CEO approval) are switched off for now — uncomment to bring them back.
+// import ExpenseRequests from '@/components/ExpenseRequests';
 import Shell from '@/components/Shell';
 import { api, editHref, formatMoney, mediaUrl } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
@@ -63,8 +64,10 @@ const TYPES: { key: ExpenseType; label: string; icon: typeof Layers; hint: strin
   { key: 'all', label: 'All', icon: Layers, hint: 'Every expense' },
   { key: 'normal', label: 'Normal', icon: PenLine, hint: 'Entered by hand' },
   { key: 'fixed', label: 'Fixed', icon: Repeat, hint: 'Booked every month' },
-  { key: 'request', label: 'Requests', icon: HandCoins, hint: 'Need CEO approval' },
-  { key: 'project', label: 'Projects', icon: FolderKanban, hint: 'Costs per project' },
+  // Expense requests (CEO approval) are switched off for now:
+  // { key: 'request', label: 'Requests', icon: HandCoins, hint: 'Need CEO approval' },
+  // Projects are not used by Future Vision Development — uncomment to bring the tab back:
+  // { key: 'project', label: 'Projects', icon: FolderKanban, hint: 'Costs per project' },
 ];
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -208,7 +211,7 @@ function ExpensesPage() {
       )}
 
       {/* Expense types */}
-      <div className="stagger mb-5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="stagger mb-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
         {TYPES.map(({ key, label, icon: Icon, hint }) => {
           const active = type === key;
           const count =
@@ -246,13 +249,15 @@ function ExpensesPage() {
         })}
       </div>
 
+      {/* Expense requests (CEO approval) are switched off for now — uncomment to bring them back.
       {type === 'request' && (
         <div className="mb-6">
           <ExpenseRequests onDecided={loadStats} />
           <p className="mt-3 text-xs text-muted">Below: approved requests that were added to expenses.</p>
         </div>
-      )}
+      )} */}
 
+      {/* Projects are not used by Future Vision Development — uncomment to bring the per-project view back.
       {type === 'project' && stats && (
         <section className="mb-6">
           {stats.projects.length === 0 ? (
@@ -299,7 +304,7 @@ function ExpensesPage() {
             <button type="button" onClick={() => go({ project: null, bar: null })} className="btn-ghost mt-3 !py-1.5 text-xs"><X className="h-3.5 w-3.5" /> All projects</button>
           )}
         </section>
-      )}
+      )} */}
 
       {/* Period bar */}
       <div className="mb-4 flex flex-wrap items-center gap-3">
@@ -501,9 +506,10 @@ function ExpensesPage() {
                             <HandCoins className="h-3 w-3" /> Request
                           </span>
                         )}
+                        {/* Projects are not used by Future Vision Development.
                         {text(row.cells.project) && (
                           <span className="mt-0.5 flex items-center gap-1 text-xs text-muted"><FolderKanban className="h-3 w-3" /> {text(row.cells.project)}</span>
-                        )}
+                        )} */}
                       </td>
                       <td className="td"><span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-semibold text-accent whitespace-nowrap">{text(row.cells.category)}</span></td>
                       <td className="td">{text(row.cells.paid_to) || <span className="text-muted">-</span>}</td>

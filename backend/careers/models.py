@@ -10,7 +10,10 @@ class JobOpening(models.Model):
     ]
 
     DEPARTMENTS = [
+        ('claims', 'Claims & Loss Adjusting'),
+        ('marine', 'Marine Surveys'),
         ('engineering', 'Engineering'),
+        ('operations', 'Operations'),
         ('product', 'Product'),
         ('design', 'Design'),
         ('marketing', 'Marketing'),

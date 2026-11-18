@@ -86,14 +86,13 @@ function Dashboard() {
               {greeting}, <span className="text-gradient">{user?.name}</span>
             </h2>
             <p className="mt-1 text-muted">
-              {isMember ? `Here are the tasks assigned to you, ${user?.team_member?.position ?? ''}.`.replace(', .', '.') : 'Here’s what’s happening across FutureInnvo today.'}
+              {isMember ? `Here are the tasks assigned to you, ${user?.team_member?.position ?? ''}.`.replace(', .', '.') : 'Here’s what’s happening across Future Vision Development today.'}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             {isMember && <Link href="/tasks/" className="btn-primary"><ListTodo className="h-4 w-4" /> Open my tasks</Link>}
             {canAdd('tasks.task') && <Link href={editHref('tasks.task')} className="btn-primary"><Plus className="h-4 w-4" /> New task</Link>}
             {canAdd('expenses.expense') && <Link href={editHref('expenses.expense')} className="btn-ghost"><Wallet className="h-4 w-4" /> Add expense</Link>}
-            {canAdd('courses.course') && <Link href={editHref('courses.course')} className="btn-ghost"><GraduationCap className="h-4 w-4" /> Add course</Link>}
           </div>
         </div>
 

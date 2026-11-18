@@ -38,6 +38,7 @@ const Career = () => {
   }, []);
 
   // Fallback static data
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- only its type is used; the sample data is no longer shown
   const fallbackJobOpenings = [
     {
       id: 1,
@@ -234,6 +235,11 @@ const Career = () => {
         {/* Job Openings */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-white mb-8 text-center animate-slide-in">{tr('Current Openings', 'الوظائف الحالية')}</h2>
+          {displayJobOpenings.length === 0 && (
+            <p className="glass-effect rounded-xl p-6 text-center text-blue-100 max-w-2xl mx-auto">
+              {tr('There are no open positions right now. You can still send us your CV with the form below.', 'لا توجد وظائف شاغرة حالياً. يمكنك إرسال سيرتك الذاتية عبر النموذج أدناه.')}
+            </p>
+          )}
           <div className="space-y-6">
             {displayJobOpenings.map((job) => (
               <div key={job.id} className="glass-effect-strong rounded-xl overflow-hidden animate-float hover:bg-blue-500/20 transition-all duration-300">

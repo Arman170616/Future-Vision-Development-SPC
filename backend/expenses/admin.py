@@ -28,13 +28,14 @@ class SuperuserOnlyAdmin(admin.ModelAdmin):
 
 @admin.register(Expense)
 class ExpenseAdmin(SuperuserOnlyAdmin):
-    list_display = ['date', 'title', 'category', 'amount', 'paid_to', 'payment_method', 'receipt', 'recurring', 'source', 'project']
-    list_filter = ['source', 'project', 'category', 'payment_method', 'date']
+    # 'project' removed from the panel (projects are not used by Future Vision Development)
+    list_display = ['date', 'title', 'category', 'amount', 'paid_to', 'payment_method', 'receipt', 'recurring', 'source']
+    list_filter = ['source', 'category', 'payment_method', 'date']
     search_fields = ['title', 'paid_to', 'reference', 'notes']
     date_hierarchy = 'date'
     list_per_page = 50
     fieldsets = (
-        (None, {'fields': (('date', 'amount'), 'title', ('category', 'payment_method'), 'paid_to', 'reference', 'project')}),
+        (None, {'fields': (('date', 'amount'), 'title', ('category', 'payment_method'), 'paid_to', 'reference')}),
         ('Receipt & notes', {'fields': ('receipt', 'notes')}),
         ('Record', {'fields': ('source', 'recurring', 'recorded_by', 'created_at', 'updated_at'), 'classes': ('collapse',)}),
     )
@@ -58,7 +59,7 @@ class RecurringExpenseAdmin(SuperuserOnlyAdmin):
     search_fields = ['title', 'paid_to', 'notes']
     list_editable = ['is_active']
     fieldsets = (
-        (None, {'fields': (('title', 'amount'), ('category', 'payment_method'), 'paid_to', 'project')}),
+        (None, {'fields': (('title', 'amount'), ('category', 'payment_method'), 'paid_to')}),
         ('Schedule', {
             'fields': (('frequency', 'day_of_month'), 'month_of_year', ('start_date', 'end_date'), 'is_active'),
             'description': 'The expense is booked automatically on this day. Booked entries can still be edited or deleted one by one.',
@@ -86,11 +87,11 @@ class RecurringExpenseAdmin(SuperuserOnlyAdmin):
 class ExpenseRequestAdmin(admin.ModelAdmin):
     """Everyone with a panel login can ask; approvers (the CEO) decide. Decisions go through the panel's Approve/Reject buttons."""
 
-    list_display = ['title', 'amount', 'category', 'project', 'requested_by', 'needed_by', 'status', 'created_at']
-    list_filter = ['status', 'category', 'project']
+    list_display = ['title', 'amount', 'category', 'requested_by', 'needed_by', 'status', 'created_at']
+    list_filter = ['status', 'category']
     search_fields = ['title', 'reason', 'paid_to']
     fieldsets = (
-        (None, {'fields': (('title', 'amount'), ('category', 'project'), ('paid_to', 'needed_by'), 'reason', 'attachment')}),
+        (None, {'fields': (('title', 'amount'), 'category', ('paid_to', 'needed_by'), 'reason', 'attachment')}),
         ('Decision', {'fields': ('status', 'decided_by', 'decided_at', 'decision_note', 'expense')}),
         ('Record', {'fields': ('requested_by', 'created_at', 'updated_at'), 'classes': ('collapse',)}),
     )

@@ -142,6 +142,13 @@ class MePasswordView(AdminAPIView):
 
 # --------------------------------------------------------------------------- index
 
+# Sections the Future Vision Development site no longer has. The apps stay installed
+# (expenses still link to projects for cost tracking) but are hidden from the panel menu.
+HIDDEN_APPS = {'courses', 'projects'}
+# Expense requests (CEO approval) are switched off for now — remove from this set to show them again.
+HIDDEN_MODELS = {'expenses.expenserequest'}
+
+
 class IndexView(AdminAPIView):
     def get(self, request):
         hr = self.hr
@@ -155,6 +162,8 @@ class IndexView(AdminAPIView):
             if not any(perms.values()):
                 continue
             label = model._meta.app_label
+            if label in HIDDEN_APPS or model_key(model) in HIDDEN_MODELS:
+                continue
             app = apps_by_label.setdefault(label, {
                 'app_label': label,
                 'name': str(apps.get_app_config(label).verbose_name),
@@ -173,7 +182,7 @@ class IndexView(AdminAPIView):
                 m['name'] = m['name'][:1].upper() + m['name'][1:]
         recent = LogEntry.objects.filter(user=request.user).select_related('content_type')[:10]
         return Response({
-            'site_title': 'FutureInnvo Administration',
+            'site_title': 'Future Vision Development Administration',
             'apps': app_list,
             'recent_actions': [{
                 'action': ACTION_NAMES.get(entry.action_flag, 'change'),

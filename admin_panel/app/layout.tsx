@@ -3,7 +3,7 @@ import Providers from '@/components/Providers';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'FutureInnvo Administration',
+  title: 'Future Vision Development Administration',
   robots: { index: false, follow: false },
   icons: { icon: '/admin/logo-tile.svg', apple: '/admin/apple-touch-icon.png' },
 };

@@ -118,7 +118,7 @@ export default function Shell({ crumbs = [], title, actions, children }: { crumb
   }, [ready, user, router, pathname, params]);
 
   useEffect(() => {
-    if (title) document.title = `${title} | FutureInnvo Administration`;
+    if (title) document.title = `${title} | Future Vision Development Administration`;
   }, [title]);
 
   if (!ready || !user) {
@@ -145,7 +145,7 @@ export default function Shell({ crumbs = [], title, actions, children }: { crumb
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={40} className="transition-transform duration-300 hover:rotate-6 hover:scale-105" />
             <span className="hidden sm:block leading-tight">
-              <span className="block font-extrabold tracking-wide text-ink">FUTURE<span className="text-gradient">INNVO</span></span>
+              <span className="block font-extrabold tracking-wide text-ink">FUTURE <span className="text-gradient">VISION</span></span>
               <span className="block text-[11px] font-medium text-muted">Administration</span>
             </span>
           </Link>
@@ -166,12 +166,13 @@ export default function Shell({ crumbs = [], title, actions, children }: { crumb
               <ListTodo className="h-4 w-4" />
               <span className="hidden xl:inline">{user.team_member && !user.is_superuser ? 'My tasks' : 'Tasks'}</span>
             </Link>
+            {/* Expense requests (CEO approval) are switched off for now — uncomment to bring them back.
             {!user.is_superuser && (
               <Link href="/requests/" className={`btn-ghost !px-3 ${pathname.startsWith('/requests') ? '!border-accent text-accent' : ''}`} title="Expense requests">
                 <HandCoins className="h-4 w-4" />
                 <span className="hidden xl:inline">Requests</span>
               </Link>
-            )}
+            )} */}
             {user.is_superuser && (
               <Link href="/expenses/" className={`btn-ghost !px-3 ${pathname.startsWith('/expenses') ? '!border-accent text-accent' : ''}`} title="Expenses">
                 <Wallet className="h-4 w-4" />
